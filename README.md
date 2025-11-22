@@ -1,6 +1,7 @@
 <div align="center">
 
-<img width="1024" height="1024" alt="DISCERN Protocol" src="https://github.com/user-attachments/assets/b20c15a4-bca8-434d-a651-6963ea53dff2" />
+<img width="1024" height="1024" alt="ChatGPT Image Nov 18, 2025, 02_59_45 AM" src="https://github.com/user-attachments/assets/d2313c4e-901f-45b2-9398-c49692f86656" />
+
 
 # 🔍 DISCERN Protocol
 

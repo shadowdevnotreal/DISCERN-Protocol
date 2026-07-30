@@ -942,12 +942,9 @@
             progressData.startDate = new Date(contractData.startDate).toISOString();
         const contractData = loadStoredJSON('liberateContract', null);
         if (contractData && typeof contractData.startDate === 'string') {
-            const parsedContractStartDate = Date.parse(contractData.startDate);
-            if (!Number.isNaN(parsedContractStartDate)) {
-                const normalizedContractStartDate = new Date(parsedContractStartDate);
-                if (!Number.isNaN(normalizedContractStartDate.getTime())) {
-                    progressData.startDate = normalizedContractStartDate.toISOString();
-                }
+            const parsedContractStartDate = new Date(contractData.startDate);
+            if (!Number.isNaN(parsedContractStartDate.getTime())) {
+                progressData.startDate = parsedContractStartDate.toISOString();
             }
         }
 

@@ -1504,7 +1504,9 @@
 
             const insightElement = card.querySelector('.insight-item');
             if (insightElement && data.insight) {
-                insightElement.innerHTML = '<strong>Key Insight:</strong> ' + data.insight;
+                const label = document.createElement('strong');
+                label.textContent = 'Key Insight:';
+                insightElement.replaceChildren(label, ` ${data.insight}`);
             }
         }
 

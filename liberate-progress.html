@@ -818,8 +818,7 @@
             { id: 24, phase: 6, text: 'Celebrated my growth and resilience', completed: false }
         ];
 
-        // Initialize from localStorage
-        let progressData = JSON.parse(localStorage.getItem('liberateProgress')) || {
+        const defaultProgressData = {
             startDate: new Date().toISOString(),
             currentPhase: 1,
             completedMilestones: [],
@@ -832,6 +831,36 @@
             }
         };
 
+        function loadStoredObject(key, fallback) {
+            try {
+                const stored = localStorage.getItem(key);
+                if (!stored) return fallback;
+                const parsed = JSON.parse(stored);
+                return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+                    ? parsed
+                    : fallback;
+            } catch (error) {
+                console.warn(`Ignoring invalid stored data for ${key}:`, error);
+                return fallback;
+            }
+        }
+
+        const storedProgress = loadStoredObject('liberateProgress', {});
+        let progressData = {
+            ...defaultProgressData,
+            ...storedProgress,
+            completedMilestones: Array.isArray(storedProgress.completedMilestones)
+                ? storedProgress.completedMilestones
+                : defaultProgressData.completedMilestones,
+            journalEntries: Array.isArray(storedProgress.journalEntries)
+                ? storedProgress.journalEntries
+                : defaultProgressData.journalEntries,
+            healingMetrics: {
+                ...defaultProgressData.healingMetrics,
+                ...(storedProgress.healingMetrics || {})
+            }
+        };
+
         // Save progress
         function saveProgress() {
             localStorage.setItem('liberateProgress', JSON.stringify(progressData));
@@ -839,7 +868,7 @@
         }
 
         // Load contract data if exists
-        const contractData = JSON.parse(localStorage.getItem('liberateContract'));
+        const contractData = loadStoredObject('liberateContract', null);
         if (contractData && contractData.startDate) {
             progressData.startDate = new Date(contractData.startDate).toISOString();
         }

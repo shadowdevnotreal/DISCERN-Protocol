@@ -880,6 +880,11 @@
                 : defaultProgressData.currentPhase,
             completedMilestones: Array.isArray(storedProgress.completedMilestones)
                 ? storedProgress.completedMilestones.filter(id => Number.isInteger(id) && id >= 1 && id <= 24)
+                : defaultProgressData.completedMilestones,
+            journalEntries: Array.isArray(storedProgress.journalEntries)
+                ? storedProgress.journalEntries.filter(entry =>
+                    entry && typeof entry === 'object' && typeof entry.text === 'string'
+                )
         const storedProgress = loadStoredObject('liberateProgress', {});
         let progressData = {
             ...defaultProgressData,
@@ -1068,10 +1073,16 @@
                 card.className = 'entry-card';
 
                 const date = new Date(entry.date);
-                card.innerHTML = `
-                    <div class="entry-date">${date.toLocaleDateString()} at ${date.toLocaleTimeString()}</div>
-                    <div class="entry-text">${entry.text}</div>
-                `;
+                const dateElement = document.createElement('div');
+                dateElement.className = 'entry-date';
+                dateElement.textContent = Number.isNaN(date.getTime())
+                    ? 'Date unavailable'
+                    : `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
+
+                const textElement = document.createElement('div');
+                textElement.className = 'entry-text';
+                textElement.textContent = entry.text;
+                card.append(dateElement, textElement);
 
                 container.appendChild(card);
             });

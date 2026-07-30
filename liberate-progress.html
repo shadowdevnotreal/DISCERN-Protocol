@@ -883,7 +883,10 @@
         // Load contract data if exists
         const contractData = loadStoredJSON('liberateContract', null);
         if (contractData && contractData.startDate) {
-            progressData.startDate = new Date(contractData.startDate).toISOString();
+            const contractStartDate = new Date(contractData.startDate);
+            if (!Number.isNaN(contractStartDate.getTime())) {
+                progressData.startDate = contractStartDate.toISOString();
+            }
         }
 
         // Calculate days since start

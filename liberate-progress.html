@@ -882,10 +882,10 @@
 
         // Load contract data if exists
         const contractData = loadStoredJSON('liberateContract', null);
-        if (contractData && contractData.startDate) {
-            const contractStartDate = new Date(contractData.startDate);
-            if (!Number.isNaN(contractStartDate.getTime())) {
-                progressData.startDate = contractStartDate.toISOString();
+        if (contractData && typeof contractData.startDate === 'string') {
+            const parsedContractStartDate = Date.parse(contractData.startDate);
+            if (!Number.isNaN(parsedContractStartDate)) {
+                progressData.startDate = new Date(parsedContractStartDate).toISOString();
             }
         }
 

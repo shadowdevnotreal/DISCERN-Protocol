@@ -818,8 +818,7 @@
             { id: 24, phase: 6, text: 'Celebrated my growth and resilience', completed: false }
         ];
 
-        // Initialize from localStorage
-        let progressData = JSON.parse(localStorage.getItem('liberateProgress')) || {
+        const defaultProgressData = {
             startDate: new Date().toISOString(),
             currentPhase: 1,
             completedMilestones: [],
@@ -832,6 +831,33 @@
             }
         };
 
+        function loadStoredJSON(key, fallback) {
+            try {
+                const value = localStorage.getItem(key);
+                if (!value) return fallback;
+
+                const parsed = JSON.parse(value);
+                return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+                    ? parsed
+                    : fallback;
+            } catch (error) {
+                console.warn(`Ignoring invalid stored data for ${key}:`, error);
+                return fallback;
+            }
+        }
+
+        // Invalid or partially-written browser data should not prevent the
+        // progress tracker from loading.
+        const storedProgress = loadStoredJSON('liberateProgress', {});
+        let progressData = {
+            ...defaultProgressData,
+            ...storedProgress,
+            healingMetrics: {
+                ...defaultProgressData.healingMetrics,
+                ...(storedProgress.healingMetrics || {})
+            }
+        };
+
         // Save progress
         function saveProgress() {
             localStorage.setItem('liberateProgress', JSON.stringify(progressData));
@@ -839,7 +865,7 @@
         }
 
         // Load contract data if exists
-        const contractData = JSON.parse(localStorage.getItem('liberateContract'));
+        const contractData = loadStoredJSON('liberateContract', null);
         if (contractData && contractData.startDate) {
             progressData.startDate = new Date(contractData.startDate).toISOString();
         }

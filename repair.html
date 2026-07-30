@@ -4243,7 +4243,12 @@ Date: ${date}`;
                     
                     // Update contract with signed version
                     const signedContract = generateContract();
-                    contractPreview.innerHTML = '<pre style="white-space: pre-wrap;">' + signedContract + '</pre>';
+                    // Contract fields contain user-provided text. Render it as
+                    // text so markup entered into a field cannot execute.
+                    const preview = document.createElement('pre');
+                    preview.style.whiteSpace = 'pre-wrap';
+                    preview.textContent = signedContract;
+                    contractPreview.replaceChildren(preview);
                     
                     // Hide sign button and show action buttons
                     const signButton = document.getElementById('signRepairButton');

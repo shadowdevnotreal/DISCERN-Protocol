@@ -1320,13 +1320,20 @@
 
             const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-            messageDiv.innerHTML = `
-                <div class="message-header">
-                    <span class="message-author">${author}</span>
-                    <span class="message-time">${currentTime}</span>
-                </div>
-                <div class="message-content">${content}</div>
-            `;
+            const header = document.createElement('div');
+            header.className = 'message-header';
+            const authorElement = document.createElement('span');
+            authorElement.className = 'message-author';
+            authorElement.textContent = author;
+            const timeElement = document.createElement('span');
+            timeElement.className = 'message-time';
+            timeElement.textContent = currentTime;
+            header.append(authorElement, timeElement);
+
+            const contentElement = document.createElement('div');
+            contentElement.className = 'message-content';
+            contentElement.textContent = content;
+            messageDiv.append(header, contentElement);
 
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;

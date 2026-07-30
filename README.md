@@ -17,15 +17,32 @@
 
 **🚀 [Live Demo](https://discernprotocol.netlify.app/) | 🤖 [AI Coach](https://chatgpt.com/g/g-685f7ec1cae4819183b514fdeff27b43-discern-bot-relationship-navigation-coach)**
 
-*A comprehensive framework for relationship navigation with complete support ecosystems for both reconciliation (REPAIR) and liberation (LIBERATE). Each pathway includes self-contracts, progress tracking, visual frameworks, AI chatbots, and evidence-based guidance.*
+*A comprehensive, evidence-informed framework for relationship navigation with complete support ecosystems for both reconciliation (REPAIR) and liberation (LIBERATE). Each pathway includes self-contracts, progress tracking, visual frameworks, AI chatbots, and reflective guidance.*
 
 </div>
+
+## Netlify deployment
+
+This repository is a static site and does not require a build command. The
+checked-in `netlify.toml` configures Netlify to publish the repository root and
+reserves `netlify/functions` for future serverless functions.
+
+When importing the repository into Netlify, use these settings:
+
+- **Base directory:** repository root (leave blank in the Netlify UI)
+- **Build command:** leave blank
+- **Publish directory:** `.`
+- **Functions directory:** `netlify/functions`
+
+Deployment logs may contain operational details. Set **Deploy log visibility**
+to private in Netlify when the site or its build output contains sensitive
+information; this account-level setting cannot be controlled by `netlify.toml`.
 
 ---
 
 ## 🎯 **What is DISCERN Protocol?**
 
-**DISCERN Protocol** is a comprehensive, evidence-based framework that helps you determine whether a relationship warrants reconciliation (**REPAIR**) or requires safe separation (**LIBERATE**). Unlike traditional approaches that assume all relationships should be saved, DISCERN recognizes that wisdom lies in knowing **when to repair** and **when to liberate**.
+**DISCERN Protocol** is a comprehensive, evidence-informed framework that helps you reflect on whether a relationship may warrant reconciliation (**REPAIR**) or safe separation (**LIBERATE**). Unlike approaches that assume all relationships should be saved, DISCERN recognizes that wisdom can include knowing **when to repair** and **when to liberate**.
 
 ### **🌟 What Makes DISCERN 5.0 Revolutionary**
 
@@ -101,7 +118,9 @@ DISCERN 5.0 introduces **complete ecosystem support** for both pathways, ensurin
 
 **🔍 Not Sure? [Take the DISCERN Assessment](assessment.html) (2 minutes)**
 
-Our 4-domain assessment analyzes **Safety**, **Accountability**, **Patterns**, and **Impact** to recommend the right pathway with 89% accuracy.
+Our 4-domain reflection tool considers **Safety**, **Accountability**,
+**Patterns**, and **Impact** to suggest topics and pathways for further
+reflection. It is not a clinically validated diagnostic or prediction tool.
 
 </td>
 </tr>
@@ -306,7 +325,7 @@ Every ecosystem page links directly to the **24/7 AI Coach**:
 
 ### **How It Works**
 
-The DISCERN Assessment evaluates relationships across four evidence-based domains:
+The DISCERN Assessment organizes reflection across four evidence-informed domains:
 
 #### **1. 🛡️ Safety Assessment**
 - Physical safety (violence, threats, restraint)
@@ -321,7 +340,8 @@ The DISCERN Assessment evaluates relationships across four evidence-based domain
 - Consistency between words and actions
 
 #### **3. 🔁 Pattern Assessment** (Four Horsemen)
-Based on Dr. John Gottman's research (90%+ accuracy):
+Uses terminology derived from Gottman and Levenson's marital-interaction
+research as a reflection lens (not as a universal prediction formula):
 - **Criticism** - Attacking character vs. addressing behavior
 - **Contempt** - Disrespect, mockery, superiority
 - **Defensiveness** - Making excuses, playing victim
@@ -341,7 +361,9 @@ Based on Dr. John Gottman's research (90%+ accuracy):
 - **🟢 LOW-MODERATE (20-39):** Both Viable - Informed choice with support
 - **⚪ LOW (0-19):** REPAIR Pathway - Reconciliation viable with mutual commitment
 
-**Overall Accuracy**: 89% alignment with professional therapist assessments
+See the [theoretical foundations, scope limits, sources, and supplemental LLM
+prompt](docs/THEORETICAL_FOUNDATIONS.md). No clinical-accuracy percentage is
+claimed for DISCERN's scoring rules.
 
 ---
 
@@ -476,6 +498,7 @@ DISCERN-Protocol/
 │
 └── 📄 Documentation
     ├── README.md                       # This file
+    ├── docs/THEORETICAL_FOUNDATIONS.md # Theory, evidence limits, and LLM prompt
     └── LICENSE                         # GPL v3.0
 ```
 
@@ -522,29 +545,12 @@ DISCERN-Protocol/
 
 ---
 
-## 🏆 **Platform Impact**
+## 🏆 **Measurement and Impact**
 
-<div align="center">
-
-### **📊 User Engagement**
-
-| Metric | REPAIR | LIBERATE | Overall |
-|--------|--------|----------|---------|
-| **Pathway Completion** | 87% | 91% | 89% |
-| **User Satisfaction** | 4.6/5 | 4.8/5 | 4.7/5 |
-| **Safety Improvement** | 4.2/5 | 4.9/5 | 4.6/5 |
-| **Long-term Success** | 84% | 89% | 86.5% |
-
-### **🌍 Global Reach**
-
-- **30,000+** Assessments Completed
-- **12,600** REPAIR Users
-- **11,400** LIBERATE Users
-- **75+** Countries Worldwide
-- **3,200** Crisis Interventions
-- **4,500** Safety Plans Created
-
-</div>
+DISCERN does not currently publish verified completion, satisfaction, safety,
+clinical-accuracy, or long-term-outcome statistics. Future impact claims should
+identify the sample, measurement period, methods, uncertainty, and source data
+before publication.
 
 ---
 
@@ -594,7 +600,7 @@ git push origin feature/enhancement-name
 - ♿ Accessibility enhancements
 - 🌍 Internationalization (i18n)
 - 📚 Documentation improvements
-- 🧠 New evidence-based features
+- 🧠 New evidence-informed features
 - 🛡️ Safety protocol enhancements
 
 ---
@@ -638,7 +644,14 @@ the Free Software Foundation, either version 3 of the License, or
 
 DISCERN Protocol integrates evidence-based practices from:
 
-- **Dr. John Gottman** - Four Horsemen research (90%+ accuracy)
+- **John Gottman and Robert Levenson** - longitudinal marital-interaction research
+- **Leslie Baxter and Barbara Montgomery** - Relational Dialectics Theory
+- **Mark Knapp and colleagues** - relational-development vocabulary
+- **Laura Stafford and Daniel Canary** - relational-maintenance research
+- **Kris Berenson** - project-attributed extension of Four Horsemen terminology
+  to friendships and other non-marital contexts; a primary source is still
+  requested, so this is identified as a supplemental adaptation rather than an
+  independently validated theory
 - **Restorative Justice Practitioners** - Community healing frameworks
 - **Domestic Violence Advocates** - Safety-first trauma-informed approaches
 - **Emotional Intelligence Experts** - Empathy and regulation tools
@@ -652,7 +665,7 @@ DISCERN Protocol integrates evidence-based practices from:
 
 **🔍 A Diatasso PRCM™ Relationship Navigation Platform**
 
-*Empowering wise relationship decisions through intelligent, evidence-based technology*
+*Supporting thoughtful relationship reflection through evidence-informed technology*
 
 ---
 

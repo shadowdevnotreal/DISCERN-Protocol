@@ -850,10 +850,16 @@
         // progress tracker from loading.
         const storedProgress = loadStoredJSON('liberateProgress', {});
         const parsedPhase = Number(storedProgress.currentPhase);
+        const storedHealingMetrics = (storedProgress.healingMetrics && typeof storedProgress.healingMetrics === 'object' && !Array.isArray(storedProgress.healingMetrics))
+            ? storedProgress.healingMetrics
+            : {};
+
+        function sanitizeMetricValue(value, fallback) {
+            const parsedMetric = Number(value);
+            return Number.isFinite(parsedMetric) ? Math.max(0, Math.min(100, parsedMetric)) : fallback;
+        }
 
         let progressData = {
-            ...defaultProgressData,
-            ...storedProgress,
             startDate: (typeof storedProgress.startDate === 'string' && !Number.isNaN(Date.parse(storedProgress.startDate)))
                 ? storedProgress.startDate
                 : defaultProgressData.startDate,
@@ -867,10 +873,10 @@
                 ? storedProgress.journalEntries
                 : defaultProgressData.journalEntries,
             healingMetrics: {
-                ...defaultProgressData.healingMetrics,
-                ...(storedProgress.healingMetrics && typeof storedProgress.healingMetrics === 'object' && !Array.isArray(storedProgress.healingMetrics)
-                    ? storedProgress.healingMetrics
-                    : {})
+                emotional: sanitizeMetricValue(storedHealingMetrics.emotional, defaultProgressData.healingMetrics.emotional),
+                financial: sanitizeMetricValue(storedHealingMetrics.financial, defaultProgressData.healingMetrics.financial),
+                social: sanitizeMetricValue(storedHealingMetrics.social, defaultProgressData.healingMetrics.social),
+                physical: sanitizeMetricValue(storedHealingMetrics.physical, defaultProgressData.healingMetrics.physical)
             }
         };
 

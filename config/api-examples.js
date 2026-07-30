@@ -76,6 +76,7 @@ import java.net.http.HttpResponse;
 public class GroqExample {
   public static void main(String[] args) throws Exception {
     HttpRequest request = HttpRequest.newBuilder()
+                groq: example('Java', `HttpRequest request = HttpRequest.newBuilder()
     .uri(URI.create("https://api.groq.com/openai/v1/chat/completions"))
     .header("Authorization", "Bearer YOUR_GROQ_API_KEY")
     .header("Content-Type", "application/json")
@@ -90,6 +91,7 @@ HttpResponse<String> response = HttpClient.newHttpClient()
     System.out.println(response.body());
   }
 }`)
+System.out.println(response.body());`)
             },
             curl: {
                 groq: example('cURL', `curl https://api.groq.com/openai/v1/chat/completions \\
@@ -100,6 +102,7 @@ HttpResponse<String> response = HttpClient.newHttpClient()
             php: {
                 groq: example('PHP', `<?php
 $payload = json_encode([
+                groq: example('PHP', `$payload = json_encode([
     'model' => 'GROQ_MODEL',
     'messages' => [['role' => 'user', 'content' => 'Hello!']]
 ]);
@@ -137,6 +140,10 @@ import (
 
 func main() {
     payload := strings.NewReader(\`{"model":"GROQ_MODEL","messages":[{"role":"user","content":"Hello!"}]}\`)
+echo curl_exec($ch);`)
+            },
+            go: {
+                groq: example('Go', `payload := strings.NewReader(\`{"model":"GROQ_MODEL","messages":[{"role":"user","content":"Hello!"}]}\`)
 req, err := http.NewRequest("POST", "https://api.groq.com/openai/v1/chat/completions", payload)
 if err != nil { log.Fatal(err) }
 req.Header.Set("Authorization", "Bearer YOUR_GROQ_API_KEY")
@@ -147,6 +154,7 @@ defer resp.Body.Close()
 if resp.StatusCode >= http.StatusBadRequest { log.Fatal(fmt.Errorf("Groq request failed: %s", resp.Status)) }
 if _, err := io.Copy(os.Stdout, resp.Body); err != nil { log.Fatal(err) }
 }`)
+io.Copy(os.Stdout, resp.Body)`)
             },
             ruby: {
                 groq: example('Ruby', `require 'net/http'

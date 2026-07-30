@@ -4243,6 +4243,8 @@ Date: ${date}`;
                     
                     // Update contract with signed version
                     const signedContract = generateContract();
+                    // Contract fields contain user-provided text. Render it as
+                    // text so markup entered into a field cannot execute.
                     const preview = document.createElement('pre');
                     preview.style.whiteSpace = 'pre-wrap';
                     preview.textContent = signedContract;

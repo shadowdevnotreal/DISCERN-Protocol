@@ -831,6 +831,11 @@
             }
         };
 
+        function loadStoredObject(key, fallback) {
+            try {
+                const stored = localStorage.getItem(key);
+                if (!stored) return fallback;
+                const parsed = JSON.parse(stored);
         function loadStoredJSON(key, fallback) {
             try {
                 const value = localStorage.getItem(key);
@@ -846,6 +851,10 @@
             }
         }
 
+        const storedProgress = loadStoredObject('liberateProgress', {});
+        let progressData = {
+            ...defaultProgressData,
+            ...storedProgress,
         // Invalid or partially-written browser data should not prevent the
         // progress tracker from loading.
         const storedProgress = loadStoredJSON('liberateProgress', {});
@@ -873,6 +882,8 @@
                 ? storedProgress.journalEntries
                 : defaultProgressData.journalEntries,
             healingMetrics: {
+                ...defaultProgressData.healingMetrics,
+                ...(storedProgress.healingMetrics || {})
                 emotional: sanitizeMetricValue(storedHealingMetrics.emotional, defaultProgressData.healingMetrics.emotional),
                 financial: sanitizeMetricValue(storedHealingMetrics.financial, defaultProgressData.healingMetrics.financial),
                 social: sanitizeMetricValue(storedHealingMetrics.social, defaultProgressData.healingMetrics.social),
@@ -887,6 +898,9 @@
         }
 
         // Load contract data if exists
+        const contractData = loadStoredObject('liberateContract', null);
+        if (contractData && contractData.startDate) {
+            progressData.startDate = new Date(contractData.startDate).toISOString();
         const contractData = loadStoredJSON('liberateContract', null);
         if (contractData && typeof contractData.startDate === 'string') {
             const parsedContractStartDate = Date.parse(contractData.startDate);

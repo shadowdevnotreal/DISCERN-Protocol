@@ -836,6 +836,12 @@
                 const stored = localStorage.getItem(key);
                 if (!stored) return fallback;
                 const parsed = JSON.parse(stored);
+        function loadStoredJSON(key, fallback) {
+            try {
+                const value = localStorage.getItem(key);
+                if (!value) return fallback;
+
+                const parsed = JSON.parse(value);
                 return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
                     ? parsed
                     : fallback;
@@ -879,12 +885,47 @@
                 ? storedProgress.journalEntries.filter(entry =>
                     entry && typeof entry === 'object' && typeof entry.text === 'string'
                 )
+        const storedProgress = loadStoredObject('liberateProgress', {});
+        let progressData = {
+            ...defaultProgressData,
+            ...storedProgress,
+        // Invalid or partially-written browser data should not prevent the
+        // progress tracker from loading.
+        const storedProgress = loadStoredJSON('liberateProgress', {});
+        const parsedPhase = Number(storedProgress.currentPhase);
+        const storedHealingMetrics = (storedProgress.healingMetrics && typeof storedProgress.healingMetrics === 'object' && !Array.isArray(storedProgress.healingMetrics))
+            ? storedProgress.healingMetrics
+            : {};
+
+        function sanitizeMetricValue(value, fallback) {
+            const parsedMetric = Number(value);
+            return Number.isFinite(parsedMetric) ? Math.max(0, Math.min(100, parsedMetric)) : fallback;
+        }
+
+        let progressData = {
+            startDate: (typeof storedProgress.startDate === 'string' && !Number.isNaN(Date.parse(storedProgress.startDate)))
+                ? storedProgress.startDate
+                : defaultProgressData.startDate,
+            currentPhase: (Number.isInteger(parsedPhase) && parsedPhase >= 1 && parsedPhase <= 6)
+                ? parsedPhase
+                : defaultProgressData.currentPhase,
+            completedMilestones: Array.isArray(storedProgress.completedMilestones)
+                ? storedProgress.completedMilestones
+                : defaultProgressData.completedMilestones,
+            journalEntries: Array.isArray(storedProgress.journalEntries)
+                ? storedProgress.journalEntries
                 : defaultProgressData.journalEntries,
             healingMetrics: {
                 emotional: normalizeMetric(storedMetrics.emotional, defaultProgressData.healingMetrics.emotional),
                 financial: normalizeMetric(storedMetrics.financial, defaultProgressData.healingMetrics.financial),
                 social: normalizeMetric(storedMetrics.social, defaultProgressData.healingMetrics.social),
                 physical: normalizeMetric(storedMetrics.physical, defaultProgressData.healingMetrics.physical)
+                ...defaultProgressData.healingMetrics,
+                ...(storedProgress.healingMetrics || {})
+                emotional: sanitizeMetricValue(storedHealingMetrics.emotional, defaultProgressData.healingMetrics.emotional),
+                financial: sanitizeMetricValue(storedHealingMetrics.financial, defaultProgressData.healingMetrics.financial),
+                social: sanitizeMetricValue(storedHealingMetrics.social, defaultProgressData.healingMetrics.social),
+                physical: sanitizeMetricValue(storedHealingMetrics.physical, defaultProgressData.healingMetrics.physical)
             }
         };
 
@@ -898,6 +939,16 @@
         const contractData = loadStoredObject('liberateContract', null);
         if (contractData && contractData.startDate) {
             progressData.startDate = normalizeDate(contractData.startDate, progressData.startDate);
+            progressData.startDate = new Date(contractData.startDate).toISOString();
+        const contractData = loadStoredJSON('liberateContract', null);
+        if (contractData && typeof contractData.startDate === 'string') {
+            const parsedContractStartDate = Date.parse(contractData.startDate);
+            if (!Number.isNaN(parsedContractStartDate)) {
+                const normalizedContractStartDate = new Date(parsedContractStartDate);
+                if (!Number.isNaN(normalizedContractStartDate.getTime())) {
+                    progressData.startDate = normalizedContractStartDate.toISOString();
+                }
+            }
         }
 
         // Calculate days since start

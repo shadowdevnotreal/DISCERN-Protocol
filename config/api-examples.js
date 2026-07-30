@@ -10,21 +10,23 @@ class APIExamples {
 
         this.examples = {
             javascript: {
-                fetch: { groq: example('JavaScript (Fetch)', `const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer YOUR_GROQ_API_KEY',
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    model: 'GROQ_MODEL',
-    messages: [{ role: 'user', content: 'Hello!' }]
-  })
-});
+                fetch: { groq: example('JavaScript (Fetch)', `(async () => {
+  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer YOUR_GROQ_API_KEY',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: 'GROQ_MODEL',
+      messages: [{ role: 'user', content: 'Hello!' }]
+    })
+  });
 
-if (!response.ok) throw new Error(\`Groq request failed: \${response.status}\`);
-const data = await response.json();
-console.log(data.choices[0].message.content);`) },
+  if (!response.ok) throw new Error(\`Groq request failed: \${response.status}\`);
+  const data = await response.json();
+  console.log(data.choices[0].message.content);
+})();`) },
                 sdk: { groq: example('JavaScript (Groq SDK)', `import Groq from 'groq-sdk';
 
 const groq = new Groq({ apiKey: 'YOUR_GROQ_API_KEY' });
@@ -145,9 +147,17 @@ puts Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.reques
     replacePlaceholder(examples, pattern, value) {
         return examples.map(example => ({
             ...example,
-            code: example.code.replace(pattern, value)
+            // Treat replacement values literally; `$&` and similar sequences
+            // in user input must not be interpreted as replacement tokens.
+            code: example.code.replace(pattern, () => value)
         }));
     }
 }
 
-window.APIExamples = APIExamples;
+if (typeof window !== 'undefined') {
+    window.APIExamples = APIExamples;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = APIExamples;
+}

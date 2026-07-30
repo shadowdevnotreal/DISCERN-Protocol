@@ -10,23 +10,21 @@ class APIExamples {
 
         this.examples = {
             javascript: {
-                fetch: { groq: example('JavaScript (Fetch)', `(async () => {
-  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer YOUR_GROQ_API_KEY',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      model: 'GROQ_MODEL',
-      messages: [{ role: 'user', content: 'Hello!' }]
-    })
-  });
+                fetch: { groq: example('JavaScript (Fetch)', `const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_GROQ_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    model: 'GROQ_MODEL',
+    messages: [{ role: 'user', content: 'Hello!' }]
+  })
+});
 
-  if (!response.ok) throw new Error(\`Groq request failed: \${response.status}\`);
-  const data = await response.json();
-  console.log(data.choices[0].message.content);
-})();`) },
+if (!response.ok) throw new Error(\`Groq request failed: \${response.status}\`);
+const data = await response.json();
+console.log(data.choices[0].message.content);`) },
                 sdk: { groq: example('JavaScript (Groq SDK)', `import Groq from 'groq-sdk';
 
 const groq = new Groq({ apiKey: 'YOUR_GROQ_API_KEY' });

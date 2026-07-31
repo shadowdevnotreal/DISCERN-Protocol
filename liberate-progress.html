@@ -591,11 +591,6 @@
             }
         };
 
-        function loadStoredObject(key, fallback) {
-            try {
-                const stored = localStorage.getItem(key);
-                if (!stored) return fallback;
-                const parsed = JSON.parse(stored);
         function loadStoredJSON(key, fallback) {
             try {
                 const value = localStorage.getItem(key);
@@ -623,69 +618,35 @@
             return Number.isNaN(date.getTime()) ? fallback : date.toISOString();
         }
 
-        const storedProgress = loadStoredObject('liberateProgress', {});
-        const storedMetrics = storedProgress.healingMetrics
+        const storedProgress = loadStoredJSON('liberateProgress', {});
+        const parsedPhase = Number(storedProgress.currentPhase);
+        const storedMetrics = (storedProgress.healingMetrics
             && typeof storedProgress.healingMetrics === 'object'
-            && !Array.isArray(storedProgress.healingMetrics)
+            && !Array.isArray(storedProgress.healingMetrics))
             ? storedProgress.healingMetrics
             : {};
+
         let progressData = {
-            ...defaultProgressData,
-            ...storedProgress,
             startDate: normalizeDate(storedProgress.startDate, defaultProgressData.startDate),
-            currentPhase: Number.isInteger(storedProgress.currentPhase)
-                && storedProgress.currentPhase >= 1
-                && storedProgress.currentPhase <= 6
-                ? storedProgress.currentPhase
+            currentPhase: (Number.isInteger(parsedPhase) && parsedPhase >= 1 && parsedPhase <= 6)
+                ? parsedPhase
                 : defaultProgressData.currentPhase,
             completedMilestones: Array.isArray(storedProgress.completedMilestones)
                 ? storedProgress.completedMilestones.filter(id => Number.isInteger(id) && id >= 1 && id <= 24)
                 : defaultProgressData.completedMilestones,
             journalEntries: Array.isArray(storedProgress.journalEntries)
                 ? storedProgress.journalEntries.filter(entry =>
-                    entry && typeof entry === 'object' && typeof entry.text === 'string'
+                    entry
+                    && typeof entry === 'object'
+                    && typeof entry.text === 'string'
+                    && typeof entry.date === 'string'
                 )
-        const storedProgress = loadStoredObject('liberateProgress', {});
-        let progressData = {
-            ...defaultProgressData,
-            ...storedProgress,
-        // Invalid or partially-written browser data should not prevent the
-        // progress tracker from loading.
-        const storedProgress = loadStoredJSON('liberateProgress', {});
-        const parsedPhase = Number(storedProgress.currentPhase);
-        const storedHealingMetrics = (storedProgress.healingMetrics && typeof storedProgress.healingMetrics === 'object' && !Array.isArray(storedProgress.healingMetrics))
-            ? storedProgress.healingMetrics
-            : {};
-
-        function sanitizeMetricValue(value, fallback) {
-            const parsedMetric = Number(value);
-            return Number.isFinite(parsedMetric) ? Math.max(0, Math.min(100, parsedMetric)) : fallback;
-        }
-
-        let progressData = {
-            startDate: (typeof storedProgress.startDate === 'string' && !Number.isNaN(Date.parse(storedProgress.startDate)))
-                ? storedProgress.startDate
-                : defaultProgressData.startDate,
-            currentPhase: (Number.isInteger(parsedPhase) && parsedPhase >= 1 && parsedPhase <= 6)
-                ? parsedPhase
-                : defaultProgressData.currentPhase,
-            completedMilestones: Array.isArray(storedProgress.completedMilestones)
-                ? storedProgress.completedMilestones
-                : defaultProgressData.completedMilestones,
-            journalEntries: Array.isArray(storedProgress.journalEntries)
-                ? storedProgress.journalEntries
                 : defaultProgressData.journalEntries,
             healingMetrics: {
                 emotional: normalizeMetric(storedMetrics.emotional, defaultProgressData.healingMetrics.emotional),
                 financial: normalizeMetric(storedMetrics.financial, defaultProgressData.healingMetrics.financial),
                 social: normalizeMetric(storedMetrics.social, defaultProgressData.healingMetrics.social),
                 physical: normalizeMetric(storedMetrics.physical, defaultProgressData.healingMetrics.physical)
-                ...defaultProgressData.healingMetrics,
-                ...(storedProgress.healingMetrics || {})
-                emotional: sanitizeMetricValue(storedHealingMetrics.emotional, defaultProgressData.healingMetrics.emotional),
-                financial: sanitizeMetricValue(storedHealingMetrics.financial, defaultProgressData.healingMetrics.financial),
-                social: sanitizeMetricValue(storedHealingMetrics.social, defaultProgressData.healingMetrics.social),
-                physical: sanitizeMetricValue(storedHealingMetrics.physical, defaultProgressData.healingMetrics.physical)
             }
         };
 
@@ -696,10 +657,6 @@
         }
 
         // Load contract data if exists
-        const contractData = loadStoredObject('liberateContract', null);
-        if (contractData && contractData.startDate) {
-            progressData.startDate = normalizeDate(contractData.startDate, progressData.startDate);
-            progressData.startDate = new Date(contractData.startDate).toISOString();
         const contractData = loadStoredJSON('liberateContract', null);
         if (contractData && typeof contractData.startDate === 'string') {
             const parsedContractStartDate = new Date(contractData.startDate);

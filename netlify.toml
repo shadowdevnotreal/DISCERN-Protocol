@@ -16,10 +16,12 @@
 
 [[headers]]
   for = "/**/*.js"
+  for = "/*.js"
   [headers.values]
     Cache-Control = "public, max-age=3600, must-revalidate"
 
 [[headers]]
   for = "/**/*.css"
+  for = "/*.css"
   [headers.values]
     Cache-Control = "public, max-age=3600, must-revalidate"

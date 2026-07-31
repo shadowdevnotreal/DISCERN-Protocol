@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="desktop-enhancements.css">
 
     <script src="theme-system.js"></script>
+    <script src="nav-component.js"></script>
     <style>
         :root {
             --bg-primary: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
@@ -63,37 +64,6 @@
             min-height: 100vh;
             color: var(--text-primary);
             transition: all 0.3s ease;
-        }
-
-        nav {
-            background: var(--nav-bg);
-            padding: 15px;
-            box-shadow: 0 2px 10px var(--shadow-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-
-        .nav-link:hover {
-            background: var(--nav-hover);
-            color: var(--accent-primary);
         }
 
         .container {
@@ -382,15 +352,6 @@
     </div>
 
     <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <a href="index.html" class="nav-link">🏠 Home</a>
-            <a href="liberate.html" class="nav-link">🕊️ LIBERATE</a>
-            <a href="liberate-progress.html" class="nav-link">📊 Progress</a>
-            <a href="liberate_visual_framework.html" class="nav-link">🎨 Framework</a>
-        </div>
-    </nav>
-
     <div class="container">
         <!-- Header -->
         <div class="header">
@@ -859,7 +820,15 @@ https://chatgpt.com/g/g-685f7ec1cae4819183b514fdeff27b43-discern-bot-relationshi
         // Chatbot Functions
         // Initialize chatbot    </script>
 
-    <script src="chat-widget.js"></script>
+    
+    <script>
+    initNav({
+        type:         'liberate',
+        activePage:   'liberate-contract',
+        showApiSetup: false,
+    });
+    </script>
+<script src="chat-widget.js"></script>
     <script>
     initChatWidget({
         panelId:        'agent-panel',

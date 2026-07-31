@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="desktop-enhancements.css">
     
     <script src="theme-system.js"></script>
+    <script src="nav-component.js"></script>
     <style>
         :root {
             /* Light Theme Variables */
@@ -74,11 +75,6 @@
         [data-theme="dark"] .history-item {
             background: var(--bg-glass-light);
             color: var(--text-primary);
-        }
-        
-        /* Enhanced dark mode fixes for all elements */
-        [data-theme="dark"] .navigation {
-            border-color: var(--border-color);
         }
         
         [data-theme="dark"] .btn-secondary {
@@ -181,71 +177,6 @@
             background: var(--bg-primary, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
             min-height: 100vh;
             transition: all 0.3s ease;
-        }
-
-        /* Dynamic Navigation */
-        nav {
-            background: var(--bg-glass, rgba(255,255,255,0.95));
-            backdrop-filter: var(--backdrop-blur, blur(20px));
-            padding: 15px;
-            box-shadow: 0 2px 10px var(--shadow-color, rgba(0,0,0,0.1));
-            position: sticky;
-            top: 0;
-            z-index: 900;
-            border-bottom: 1px solid var(--border-color, rgba(102, 126, 234, 0.2));
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-secondary, #4b5563);
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .nav-link:hover {
-            background: var(--bg-glass-hover, rgba(255, 255, 255, 0.35));
-            color: var(--text-hover, #667eea);
-        }
-
-        .nav-link.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            cursor: default;
-        }
-
-        .nav-link.active:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .ai-nav-link {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 10px 20px;
-            font-weight: 700;
-            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
-        }
-
-        .ai-nav-link:hover {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            color: white;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
         }
 
         .container {
@@ -879,16 +810,6 @@
             accent-color: #f59e0b;
         }
 
-        /* Navigation Buttons */
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 2rem;
-            border-top: 2px solid var(--border-color);
-            margin-top: 2rem;
-        }
-
         .btn {
             padding: 1rem 2rem;
             border: none;
@@ -1099,10 +1020,6 @@
             .toggle-switch {
                 max-width: 100%;
             }
-        }
-
-        .emoji {
-            font-style: normal;
         }
 
         /* API Configuration Modal */
@@ -2605,43 +2522,6 @@
         <div class="ai-status-dot"></div>
         <span class="ai-status-text">🤖 AI Offline</span>
     </div>
-
-    <nav>
-        <div class="nav-container">
-            <a href="index.html" class="nav-link">
-                <span class="emoji">🏠</span> Home
-            </a>
-            <span class="nav-link active">
-                <span class="emoji">🔧</span> REPAIR Protocol
-            </span>
-            <a href="about.html" class="nav-link">
-                <span class="emoji">📊</span> Visual Framework
-            </a>
-            <a href="progress.html" class="nav-link">
-                <span class="emoji">📈</span> Progress
-            </a>
-            <a href="mediation-mode.html" class="nav-link">
-                <span class="emoji">🤝</span> Mediation
-            </a>
-            <a href="sign-contract.html" class="nav-link">
-                <span class="emoji">✍️</span> Sign Contract
-            </a>
-            <a href="api-quickstart.html" class="nav-link">
-                <span class="emoji">📚</span> API Guide
-            </a>
-            <a href="https://chatgpt.com/g/g-685f7ec1cae4819183b514fdeff27b43-discern-bot-relationship-navigation-coach"
-               class="nav-link ai-nav-link"
-               target="_blank"
-               rel="noopener noreferrer">
-                <span class="emoji">🤖</span> AI Coach
-            </a>
-            <button class="nav-link" onclick="openAPIConfig()" style="background: none; border: none; cursor: pointer;">
-                <span class="emoji">⚙️</span> API Setup
-            </button>
-
-        </div>
-    </nav>
-
     <div class="header">
         <div class="container desktop-optimized">
             <h1>REPAIR Pathway</h1>
@@ -4214,7 +4094,15 @@ Date: ${date}`;
             printWindow.document.write('<html><head><title>REPAIR Pathway Contract | DISCERN Protocol</title></head><body>');
             printWindow.document.write('<pre style="font-family: monospace; white-space: pre-wrap; line-height: 1.6;">');
             printWindow.document.write(contractText.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-            printWindow.document.write('</pre></body></html>');
+            printWindow.document.write('</pre>
+    <script>
+    initNav({
+        type:         'repair',
+        activePage:   'repair',
+        showApiSetup: true,
+    });
+    </script>
+</body></html>');
             printWindow.document.close();
             printWindow.print();
         }
@@ -5425,6 +5313,14 @@ sendRepairRequest('Help me craft a sincere apology using the REPAIR framework')
             };
             document.head.appendChild(script);
         }
+    </script>
+
+    <script>
+    initNav({
+        type:         'repair',
+        activePage:   'repair',
+        showApiSetup: true,
+    });
     </script>
 </body>
 </html>

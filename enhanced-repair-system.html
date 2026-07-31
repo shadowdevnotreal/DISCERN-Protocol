@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="desktop-enhancements.css">
     
     <script src="theme-system.js"></script>
+    <script src="nav-component.js"></script>
     <style>
 
         * {
@@ -499,54 +500,6 @@
             margin-right: 8px;
         }
 
-        /* Navigation */
-        nav {
-            background: var(--bg-glass);
-            padding: 15px;
-            margin-bottom: 30px;
-            border-radius: 12px;
-            backdrop-filter: var(--backdrop-blur);
-            border: 1px solid var(--border-color);
-        }
-
-        nav div {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        nav a:hover {
-            background: var(--bg-glass-hover);
-            color: var(--text-hover);
-        }
-
-        nav button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-secondary);
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        nav button:hover {
-            background: var(--bg-glass-hover);
-            color: var(--text-hover);
-        }
-
         /* Additional dark mode text fixes */
         [data-theme="dark"] .container,
         [data-theme="dark"] .process-panel,
@@ -663,17 +616,6 @@
         </div>
 
         <!-- Navigation -->
-        <nav class="navigation desktop-center">
-            <div>
-                <a href="index.html">🏠 Home</a>
-                <a href="repair.html">🔧 Start REPAIR</a>
-                <a href="mediation-mode.html">⚖️ Mediation</a>
-                <a href="sign-contract.html">📝 Contract</a>
-                <a href="progress.html">📊 Progress</a>
-                <a href="about.html">ℹ️ About</a>
-            </div>
-        </nav>
-
         <!-- Main Control Panel -->
         <div class="main-grid content-wrapper-enhanced desktop-center">
             <div class="process-panel">
@@ -1327,7 +1269,15 @@
 
                             <p><em>Contract generated with AI optimization for maximum success probability (82%)</em></p>
                         
-    <script src="chat-widget.js"></script>
+    
+    <script>
+    initNav({
+        type:         'repair',
+        activePage:   null,
+        showApiSetup: false,
+    });
+    </script>
+<script src="chat-widget.js"></script>
     <script>
     initChatWidget({
         panelId:        'agent-panel',

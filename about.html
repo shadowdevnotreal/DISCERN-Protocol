@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="desktop-enhancements.css">
     
     <script src="theme-system.js"></script>
+    <script src="nav-component.js"></script>
     <style>
 
         * {
@@ -62,69 +63,6 @@
 
         .theme-toggle:hover .theme-icon {
             transform: scale(1.1);
-        }
-
-        /* Dynamic Navigation */
-        nav {
-            background: var(--bg-glass);
-            backdrop-filter: var(--backdrop-blur);
-            padding: 15px;
-            box-shadow: 0 2px 10px var(--shadow-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .nav-link:hover {
-            background: var(--bg-glass-hover);
-            color: var(--text-hover);
-        }
-
-        .nav-link.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            cursor: default;
-        }
-
-        .nav-link.active:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .ai-nav-link {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 10px 20px;
-            font-weight: 700;
-            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
-        }
-
-        .ai-nav-link:hover {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            color: white;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
         }
 
         .framework-container {
@@ -512,10 +450,6 @@
             }
         }
 
-        .emoji {
-            font-style: normal;
-        }
-
         .chat-action-btn {
             background: rgba(255, 255, 255, 0.2);
             border: none;
@@ -542,39 +476,6 @@
         <span class="theme-icon" id="theme-icon">🌙</span>
         <span id="theme-text">Dark Mode</span>
     </div>
-
-    <nav class="navigation desktop-center">
-        <div class="nav-container desktop-center">
-            <a href="index.html" class="nav-link">
-                <span class="emoji">🏠</span> Home
-            </a>
-            <a href="repair.html" class="nav-link">
-                <span class="emoji">🔧</span> REPAIR Protocol
-            </a>
-            <span class="nav-link active">
-                <span class="emoji">📊</span> Visual Framework
-            </span>
-            <a href="progress.html" class="nav-link">
-                <span class="emoji">📈</span> Progress
-            </a>
-            <a href="mediation-mode.html" class="nav-link">
-                <span class="emoji">🤝</span> Mediation
-            </a>
-            <a href="sign-contract.html" class="nav-link">
-                <span class="emoji">✍️</span> Sign Contract
-            </a>
-            <a href="api-quickstart.html" class="nav-link">
-                <span class="emoji">📚</span> API Guide
-            </a>
-            <a href="https://chatgpt.com/g/g-685f7ec1cae4819183b514fdeff27b43-discern-bot-relationship-navigation-coach"
-               class="nav-link ai-nav-link"
-               target="_blank"
-               rel="noopener noreferrer">
-                <span class="emoji">🤖</span> AI Coach
-            </a>
-        </div>
-    </nav>
-
     <div class="framework-container desktop-center responsive-padding">
         <div class="header header-section desktop-center responsive-padding">
             <h1>REPAIR Pathway</h1>
@@ -980,7 +881,15 @@
         // Chatbot Functions
         // Initialize chatbot    </script>
 
-    <script src="chat-widget.js"></script>
+    
+    <script>
+    initNav({
+        type:         'repair',
+        activePage:   'about',
+        showApiSetup: false,
+    });
+    </script>
+<script src="chat-widget.js"></script>
     <script>
     initChatWidget({
         panelId:        'agent-panel',

@@ -4357,7 +4357,8 @@ Date: ${date}`;
         }
 
         function closeAPIConfig() {
-            document.getElementById('api-config-modal').classList.remove('active');
+            const modal = document.getElementById('api-config-modal');
+            if (modal) modal.classList.remove('active');
         }
 
         // Provider configuration mappings
@@ -4494,20 +4495,23 @@ Date: ${date}`;
 
                 window.repairAPIConfig.updateConfig(config);
 
-                alert('Configuration saved successfully!');
-                closeAPIConfig();
-
-                // Update AI badge status
-                updateAIBadge();
-
-                // Reinitialize if in AI mode
-                if (aiMode) {
-                    await initializeGPTIntegration();
-                }
-
             } catch (error) {
                 console.error('Error saving configuration:', error);
                 alert('Failed to save configuration: ' + error.message);
+                return;
+            }
+
+            alert('Configuration saved successfully!');
+            closeAPIConfig();
+            updateAIBadge();
+
+            // Initialization is a separate operation: a missing panel or a
+            // provider error must not turn a successful save into a save error.
+            if (aiMode) {
+                const initialized = await initializeGPTIntegration();
+                if (!initialized) {
+                    console.warn('Configuration saved, but AI initialization did not complete.');
+                }
             }
         }
 
@@ -5237,17 +5241,17 @@ sendRepairRequest('Help me craft a sincere apology using the REPAIR framework')
 
         function showAPISetupPanel() {
             const panel = document.getElementById('ai-config-panel');
-            panel.classList.add('active');
+            if (panel) panel.classList.add('active');
         }
 
         function hideAPISetupPanel() {
             const panel = document.getElementById('ai-config-panel');
-            panel.classList.remove('active');
+            if (panel) panel.classList.remove('active');
         }
 
         function showChatInterface() {
             const chatInterface = document.getElementById('chat-interface');
-            chatInterface.classList.add('active');
+            if (chatInterface) chatInterface.classList.add('active');
         }
 
         function updateUsageStats() {
@@ -5255,11 +5259,17 @@ sendRepairRequest('Help me craft a sincere apology using the REPAIR framework')
 
             const stats = window.repairAPIConfig.getUsageStats();
 
-            document.getElementById('requests-today').textContent = stats.requestsToday;
-            document.getElementById('tokens-used').textContent = stats.tokensUsed;
-            document.getElementById('success-rate').textContent = Math.round(stats.percentageUsed) + '%';
+            const requestsToday = document.getElementById('requests-today');
+            const tokensUsed = document.getElementById('tokens-used');
+            const successRate = document.getElementById('success-rate');
+            const usageStats = document.getElementById('usage-stats');
 
-            document.getElementById('usage-stats').style.display = 'grid';
+            if (requestsToday) requestsToday.textContent = stats.requestsToday;
+            if (tokensUsed) tokensUsed.textContent = stats.tokensUsed;
+            if (successRate && Number.isFinite(stats.percentageUsed)) {
+                successRate.textContent = Math.round(stats.percentageUsed) + '%';
+            }
+            if (usageStats) usageStats.style.display = 'grid';
         }
 
         function updateContextualInsights(insights) {
@@ -5306,35 +5316,40 @@ sendRepairRequest('Help me craft a sincere apology using the REPAIR framework')
             aiMode = enable;
 
             // Update toggle UI
-            document.getElementById('standard-toggle').classList.toggle('active', !enable);
-            document.getElementById('ai-toggle').classList.toggle('active', enable);
+            const standardToggle = document.getElementById('standard-toggle');
+            const aiToggle = document.getElementById('ai-toggle');
+            if (standardToggle) standardToggle.classList.toggle('active', !enable);
+            if (aiToggle) aiToggle.classList.toggle('active', enable);
 
             // Update main content layout
             const mainContent = document.getElementById('main-content');
-            mainContent.classList.toggle('ai-mode', enable);
+            if (mainContent) mainContent.classList.toggle('ai-mode', enable);
 
             // Show/hide agent panel
             const agentPanel = document.getElementById('agent-panel');
-            agentPanel.classList.toggle('active', enable);
+            if (agentPanel) agentPanel.classList.toggle('active', enable);
 
             // Update description
             const description = document.getElementById('mode-description');
             if (enable) {
-                description.textContent = 'AI-enhanced version with real-time GPT analysis, intelligent feedback, and personalized coaching.';
+                if (description) description.textContent = 'AI-enhanced version with real-time GPT analysis, intelligent feedback, and personalized coaching.';
 
                 // Initialize GPT integration
                 await initializeGPTIntegration();
             } else {
-                description.textContent = 'Experience the foundational REPAIR Protocol with comprehensive 8-phase workflow.';
+                if (description) description.textContent = 'Experience the foundational REPAIR Protocol with comprehensive 8-phase workflow.';
 
                 // Clean up GPT integration
                 if (repairAssistant) {
                     repairAssistant.endSession();
                 }
                 hideAPISetupPanel();
-                document.getElementById('chat-interface').classList.remove('active');
-                document.getElementById('contextual-insights').style.display = 'none';
-                document.getElementById('conversation-history').style.display = 'none';
+                const chatInterface = document.getElementById('chat-interface');
+                if (chatInterface) chatInterface.classList.remove('active');
+                const contextualInsights = document.getElementById('contextual-insights');
+                const conversationHistory = document.getElementById('conversation-history');
+                if (contextualInsights) contextualInsights.style.display = 'none';
+                if (conversationHistory) conversationHistory.style.display = 'none';
             }
         }
 

@@ -146,25 +146,24 @@ document.addEventListener('DOMContentLoaded', function() {
 // CSS for theme system - inject into page
 const themeCSS = `
 :root {
-    /* Light Theme Variables - WCAG AA Compliant */
+    /* Light Theme Variables */
     --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --bg-secondary: rgba(255, 255, 255, 0.98);
-    --bg-glass: rgba(255, 255, 255, 0.85);
-    --bg-glass-hover: rgba(255, 255, 255, 0.95);
+    --bg-glass: rgba(255, 255, 255, 0.25);
+    --bg-glass-hover: rgba(255, 255, 255, 0.35);
     --card-bg: rgba(255, 255, 255, 0.95);
     --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    /* Dark text on light backgrounds - 4.5:1 contrast ratio */
-    --text-primary: #111827;
-    --text-secondary: #374151;
-    --text-tertiary: #4b5563;
-    --text-on-glass: #111827;
-    --text-hover: #4338ca;
-    --border-color: rgba(75, 85, 99, 0.2);
+    --text-primary: #1f2937;
+    --text-secondary: #4b5563;
+    --text-tertiary: #6b7280;
+    --text-on-glass: #1f2937;
+    --text-hover: #667eea;
+    --border-color: rgba(102, 126, 234, 0.2);
     --shadow-color: rgba(0, 0, 0, 0.1);
-    --shadow-hover: rgba(67, 56, 202, 0.3);
+    --shadow-hover: rgba(102, 126, 234, 0.3);
     --backdrop-blur: blur(20px);
-    --accent-primary: #4338ca;
-    --accent-secondary: #6366f1;
+    --accent-primary: #667eea;
+    --accent-secondary: #764ba2;
 }
 
 [data-theme="dark"] {

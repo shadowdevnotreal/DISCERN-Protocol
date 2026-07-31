@@ -9,56 +9,33 @@
     <link rel="stylesheet" href="desktop-enhancements.css">
     
     <script src="theme-system.js"></script>
+    <script src="nav-component.js"></script>
     <style>
         :root {
             /* Light Theme Variables */
-            --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --bg-secondary: rgba(255, 255, 255, 0.98);
-            --bg-glass: rgba(255, 255, 255, 0.25);
-            --bg-glass-hover: rgba(255, 255, 255, 0.35);
             --bg-glass-light: rgba(255, 255, 255, 0.8);
             --bg-input: rgba(255, 255, 255, 0.8);
             --bg-input-focus: white;
             --bg-card: #f9fafb;
-            --text-primary: #1f2937;
-            --text-secondary: #4b5563;
-            --text-tertiary: #6b7280;
             --text-accent: #4c1d95;
             --text-warning: #92400e;
             --text-success: #065f46;
             --text-success-light: #047857;
-            --text-hover: #667eea;
-            --border-color: rgba(102, 126, 234, 0.2);
             --border-accent: rgba(139, 92, 246, 0.1);
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --shadow-hover: rgba(102, 126, 234, 0.3);
-            --backdrop-blur: blur(20px);
         }
 
         [data-theme="dark"] {
             /* Dark Theme Variables - WCAG AA+ Compliant */
-            --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --bg-secondary: rgba(15, 23, 42, 0.98);
-            --bg-glass: rgba(30, 41, 59, 0.85);
-            --bg-glass-hover: rgba(30, 41, 59, 0.95);
             --bg-glass-light: rgba(30, 41, 59, 0.7);
             --bg-input: rgba(30, 41, 59, 0.8);
             --bg-input-focus: rgba(30, 41, 59, 0.95);
             --bg-card: rgba(15, 23, 42, 0.95);
             /* High contrast text colors for accessibility */
-            --text-primary: #ffffff;
-            --text-secondary: #f1f5f9;
-            --text-tertiary: #e2e8f0;
             --text-accent: #c4b5fd;
             --text-warning: #fbbf24;
             --text-success: #34d399;
             --text-success-light: #10b981;
-            --text-hover: #c4b5fd;
-            --border-color: rgba(203, 213, 225, 0.3);
             --border-accent: rgba(196, 181, 253, 0.3);
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --shadow-hover: rgba(196, 181, 253, 0.4);
-            --backdrop-blur: blur(20px);
         }
         
         /* Dark mode specific improvements */
@@ -98,11 +75,6 @@
         [data-theme="dark"] .history-item {
             background: var(--bg-glass-light);
             color: var(--text-primary);
-        }
-        
-        /* Enhanced dark mode fixes for all elements */
-        [data-theme="dark"] .navigation {
-            border-color: var(--border-color);
         }
         
         [data-theme="dark"] .btn-secondary {
@@ -205,71 +177,6 @@
             background: var(--bg-primary, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
             min-height: 100vh;
             transition: all 0.3s ease;
-        }
-
-        /* Dynamic Navigation */
-        nav {
-            background: var(--bg-glass, rgba(255,255,255,0.95));
-            backdrop-filter: var(--backdrop-blur, blur(20px));
-            padding: 15px;
-            box-shadow: 0 2px 10px var(--shadow-color, rgba(0,0,0,0.1));
-            position: sticky;
-            top: 0;
-            z-index: 900;
-            border-bottom: 1px solid var(--border-color, rgba(102, 126, 234, 0.2));
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-secondary, #4b5563);
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .nav-link:hover {
-            background: var(--bg-glass-hover, rgba(255, 255, 255, 0.35));
-            color: var(--text-hover, #667eea);
-        }
-
-        .nav-link.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            cursor: default;
-        }
-
-        .nav-link.active:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .ai-nav-link {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 10px 20px;
-            font-weight: 700;
-            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
-        }
-
-        .ai-nav-link:hover {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            color: white;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
         }
 
         .container {
@@ -903,16 +810,6 @@
             accent-color: #f59e0b;
         }
 
-        /* Navigation Buttons */
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 2rem;
-            border-top: 2px solid var(--border-color);
-            margin-top: 2rem;
-        }
-
         .btn {
             padding: 1rem 2rem;
             border: none;
@@ -1123,10 +1020,6 @@
             .toggle-switch {
                 max-width: 100%;
             }
-        }
-
-        .emoji {
-            font-style: normal;
         }
 
         /* API Configuration Modal */
@@ -2629,43 +2522,6 @@
         <div class="ai-status-dot"></div>
         <span class="ai-status-text">🤖 AI Offline</span>
     </div>
-
-    <nav>
-        <div class="nav-container">
-            <a href="index.html" class="nav-link">
-                <span class="emoji">🏠</span> Home
-            </a>
-            <span class="nav-link active">
-                <span class="emoji">🔧</span> REPAIR Protocol
-            </span>
-            <a href="about.html" class="nav-link">
-                <span class="emoji">📊</span> Visual Framework
-            </a>
-            <a href="progress.html" class="nav-link">
-                <span class="emoji">📈</span> Progress
-            </a>
-            <a href="mediation-mode.html" class="nav-link">
-                <span class="emoji">🤝</span> Mediation
-            </a>
-            <a href="sign-contract.html" class="nav-link">
-                <span class="emoji">✍️</span> Sign Contract
-            </a>
-            <a href="api-quickstart.html" class="nav-link">
-                <span class="emoji">📚</span> API Guide
-            </a>
-            <a href="https://chatgpt.com/g/g-685f7ec1cae4819183b514fdeff27b43-discern-bot-relationship-navigation-coach"
-               class="nav-link ai-nav-link"
-               target="_blank"
-               rel="noopener noreferrer">
-                <span class="emoji">🤖</span> AI Coach
-            </a>
-            <button class="nav-link" onclick="openAPIConfig()" style="background: none; border: none; cursor: pointer;">
-                <span class="emoji">⚙️</span> API Setup
-            </button>
-
-        </div>
-    </nav>
-
     <div class="header">
         <div class="container desktop-optimized">
             <h1>REPAIR Pathway</h1>
@@ -3053,27 +2909,6 @@
             { name: 'Contract', icon: '📄' }
         ];
 
-        // Theme Toggle Function
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            
-            // Update theme toggle button
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
-            
-            if (newTheme === 'dark') {
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light Mode';
-            } else {
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark Mode';
-            }
-        }
-
         // Chat Widget Controls
         function toggleChatWidget() {
             const chatPanel = document.getElementById('agent-panel');
@@ -3150,22 +2985,6 @@
 
         // Initialize application
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize theme
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            
-            // Update theme toggle button
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
-            
-            if (savedTheme === 'dark') {
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light Mode';
-            } else {
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark Mode';
-            }
-            
             // Initialize AI badge status
             updateAIBadge();
 
@@ -4275,7 +4094,15 @@ Date: ${date}`;
             printWindow.document.write('<html><head><title>REPAIR Pathway Contract | DISCERN Protocol</title></head><body>');
             printWindow.document.write('<pre style="font-family: monospace; white-space: pre-wrap; line-height: 1.6;">');
             printWindow.document.write(contractText.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-            printWindow.document.write('</pre></body></html>');
+            printWindow.document.write('</pre>
+    <script>
+    initNav({
+        type:         'repair',
+        activePage:   'repair',
+        showApiSetup: true,
+    });
+    </script>
+</body></html>');
             printWindow.document.close();
             printWindow.print();
         }
@@ -4361,29 +4188,22 @@ Date: ${date}`;
             if (modal) modal.classList.remove('active');
         }
 
-        // Provider configuration mappings
-        const providerConfigs = {
-            groq: {
-                endpoint: 'https://api.groq.com/openai/v1/chat/completions',
-                keyPlaceholder: 'Enter your Groq API key (starts with gsk_)',
-                models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'meta-llama/llama-4-scout-17b-16e-instruct', 'openai/gpt-oss-120b']
-            }
-        };
+        // Provider configuration is sourced from the shared window.repairAPIConfig instance (config/api-config.js)
 
         function updateProviderSettings() {
             const provider = document.getElementById('config-provider').value;
-            const config = providerConfigs[provider];
+            const apiCfg = window.repairAPIConfig && window.repairAPIConfig.config;
 
-            if (!config) return;
+            if (!apiCfg) return;
 
             // Update endpoint
             const endpointInput = document.getElementById('config-endpoint');
-            endpointInput.value = config.endpoint;
+            endpointInput.value = apiCfg.endpoint;
             endpointInput.readOnly = true;
 
             // Update API key placeholder
             const apiKeyInput = document.getElementById('config-api-key');
-            apiKeyInput.placeholder = config.keyPlaceholder;
+            apiKeyInput.placeholder = provider === 'groq' ? 'Enter your Groq API key (starts with gsk_)' : 'Enter your API key';
 
             // Filter model dropdown to show only models for this provider
             const modelSelect = document.getElementById('config-model');
@@ -4399,8 +4219,8 @@ Date: ${date}`;
             });
 
             // Select first available model for this provider
-            if (config.models.length > 0) {
-                modelSelect.value = config.models[0];
+            if (apiCfg.availableModels && apiCfg.availableModels.length > 0) {
+                modelSelect.value = apiCfg.availableModels[0];
             }
         }
 
@@ -5463,9 +5283,6 @@ sendRepairRequest('Help me craft a sincere apology using the REPAIR framework')
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize theme first
-            initializeTheme();
-            
             // Check URL parameters for AI mode
             const urlParams = new URLSearchParams(window.location.search);
             const mode = urlParams.get('mode');
@@ -5474,45 +5291,6 @@ sendRepairRequest('Help me craft a sincere apology using the REPAIR framework')
             }
         });
 
-        // Theme management functions
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-            document.documentElement.setAttribute('data-theme', newTheme);
-
-            // Update theme toggle button
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
-
-            if (newTheme === 'dark') {
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light Mode';
-            } else {
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark Mode';
-            }
-
-            // Store preference
-            localStorage.setItem('theme', newTheme);
-        }
-
-        // Initialize theme
-        function initializeTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
-
-            if (savedTheme === 'dark') {
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light Mode';
-            } else {
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark Mode';
-            }
-        }
     </script>
 
     <!-- AI Integrator Script (conditionally loaded) -->
@@ -5528,6 +5306,14 @@ sendRepairRequest('Help me craft a sincere apology using the REPAIR framework')
             };
             document.head.appendChild(script);
         }
+    </script>
+
+    <script>
+    initNav({
+        type:         'repair',
+        activePage:   'repair',
+        showApiSetup: true,
+    });
     </script>
 </body>
 </html>

@@ -820,9 +820,9 @@
                 </div>
                 <div class="config-item">
                     <label for="api-key" id="api-key-label">API Key</label>
-                    <input type="password" id="api-key" placeholder="Enter your API key">
+                    <input type="password" id="api-key" placeholder="Enter your Groq API key" autocomplete="off" spellcheck="false">
                     <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;" id="api-key-info">
-                        Get your free API key at <a href="https://console.groq.com/" target="_blank" style="color: #3b82f6;" id="api-key-link">console.groq.com</a>
+                            Create an API key at <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer" style="color: #3b82f6;" id="api-key-link">Groq Console</a>. Billing or usage limits may apply.
                     </p>
                 </div>
                 <div class="config-item">
@@ -830,42 +830,45 @@
                     <select id="api-model">
                         <!-- Groq models -->
                         <option value="llama-3.3-70b-versatile" data-provider="groq" selected>Llama 3.3 70B (Recommended)</option>
-                        <option value="llama-3.1-70b-versatile" data-provider="groq">Llama 3.1 70B</option>
-                        <option value="mixtral-8x7b-32768" data-provider="groq">Mixtral 8x7B</option>
-                        <option value="gemma2-9b-it" data-provider="groq">Gemma 2 9B</option>
+                        <option value="llama-3.1-8b-instant" data-provider="groq">Llama 3.1 8B Instant</option>
+                        <option value="meta-llama/llama-4-scout-17b-16e-instruct" data-provider="groq">Llama 4 Scout</option>
+                        <option value="openai/gpt-oss-120b" data-provider="groq">GPT-OSS 120B</option>
                         <!-- OpenAI models -->
-                        <option value="gpt-4o" data-provider="openai">GPT-4o</option>
-                        <option value="gpt-4-turbo" data-provider="openai">GPT-4 Turbo</option>
-                        <option value="gpt-3.5-turbo" data-provider="openai">GPT-3.5 Turbo</option>
+                        <option value="gpt-4.1" data-provider="openai">GPT-4.1</option>
+                        <option value="gpt-4.1-mini" data-provider="openai">GPT-4.1 Mini</option>
+                        <option value="gpt-4o-mini" data-provider="openai">GPT-4o Mini</option>
                         <!-- Anthropic models -->
-                        <option value="claude-3-5-sonnet-20241022" data-provider="anthropic">Claude 3.5 Sonnet</option>
-                        <option value="claude-3-opus-20240229" data-provider="anthropic">Claude 3 Opus</option>
-                        <option value="claude-3-haiku-20240307" data-provider="anthropic">Claude 3 Haiku</option>
+                        <option value="claude-sonnet-4-20250514" data-provider="anthropic">Claude Sonnet 4</option>
+                        <option value="claude-3-5-haiku-20241022" data-provider="anthropic">Claude 3.5 Haiku</option>
                         <!-- Google models -->
-                        <option value="gemini-2.0-flash-exp" data-provider="google">Gemini 2.0 Flash</option>
-                        <option value="gemini-1.5-pro" data-provider="google">Gemini 1.5 Pro</option>
-                        <option value="gemini-1.5-flash" data-provider="google">Gemini 1.5 Flash</option>
+                        <option value="gemini-2.5-flash" data-provider="google">Gemini 2.5 Flash</option>
+                        <option value="gemini-2.5-pro" data-provider="google">Gemini 2.5 Pro</option>
+                        <option value="gemini-2.0-flash" data-provider="google">Gemini 2.0 Flash</option>
                     </select>
                 </div>
             </div>
             <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
                 <button onclick="saveAPIConfiguration()" style="padding: 0.75rem 1.5rem; border: none; border-radius: 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
-                    💾 Save Configuration
+                    💾 Save Provider &amp; Model
                 </button>
-                <button onclick="testAPIConnection()" style="padding: 0.75rem 1.5rem; border: 2px solid #667eea; border-radius: 8px; background: transparent; color: #667eea; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                <button id="test-api-button" onclick="testAPIConnection()" style="padding: 0.75rem 1.5rem; border: 2px solid #667eea; border-radius: 8px; background: transparent; color: #667eea; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
                     🧪 Test Connection
                 </button>
             </div>
             <div id="api-status-message" style="text-align: center; margin-top: 1rem; padding: 0.75rem; border-radius: 8px; display: none;"></div>
+            <p style="font-size: 0.875rem; color: #6b7280; margin-top: 1rem; text-align: center;">
+                Security: this static page does not persist API keys. Provider and model preferences may be saved locally, but you must re-enter the key after leaving or refreshing the page. For production, call providers from a server-side function so credentials are never exposed to browser code.
+            </p>
         </div>
 
         <div class="info-panel desktop-center">
             <h3>📋 Getting Started</h3>
             <ul>
-                <li><strong>Groq API:</strong> Get your free API key from <a href="https://console.groq.com/" target="_blank">Groq Console</a></li>
-                <li><strong>Configuration:</strong> Enter your API key above to auto-populate all code examples</li>
-                <li><strong>Models:</strong> Select your preferred Groq model to update all examples accordingly</li>
-                <li><strong>Performance:</strong> Groq provides industry-leading inference speed with open-source models</li>
+                <li><strong>Groq:</strong> Create a key in the <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer">Groq Console</a>.</li>
+                <li><strong>OpenAI API:</strong> Create a project key at <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">OpenAI API Keys</a>. ChatGPT plans and API billing are separate.</li>
+                <li><strong>Anthropic API:</strong> Create a workspace key in the <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer">Anthropic Console</a> and confirm API credits.</li>
+                <li><strong>Google Gemini API:</strong> Create a key and select a Cloud project in <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio</a>.</li>
+                <li><strong>Model access:</strong> Availability varies by account, region, billing status, and provider lifecycle. Confirm current IDs in the official catalogs for <a href="https://console.groq.com/docs/models" target="_blank" rel="noopener noreferrer">Groq</a>, <a href="https://platform.openai.com/docs/models" target="_blank" rel="noopener noreferrer">OpenAI</a>, <a href="https://docs.anthropic.com/en/docs/about-claude/models/overview" target="_blank" rel="noopener noreferrer">Anthropic</a>, or <a href="https://ai.google.dev/gemini-api/docs/models" target="_blank" rel="noopener noreferrer">Google</a>.</li>
             </ul>
         </div>
 
@@ -945,27 +948,35 @@
         const quickstartProviderConfigs = {
             groq: {
                 endpoint: 'https://api.groq.com/openai/v1/chat/completions',
-                link: 'https://console.groq.com/',
-                linkText: 'console.groq.com',
-                models: ['llama-3.3-70b-versatile', 'llama-3.1-70b-versatile', 'mixtral-8x7b-32768', 'gemma2-9b-it']
+                link: 'https://console.groq.com/keys',
+                linkText: 'Groq Console',
+                keyPlaceholder: 'gsk_…',
+                keyGuidance: 'Create an API key in Groq Console. Billing or usage limits may apply.',
+                models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'meta-llama/llama-4-scout-17b-16e-instruct', 'openai/gpt-oss-120b']
             },
             openai: {
                 endpoint: 'https://api.openai.com/v1/chat/completions',
                 link: 'https://platform.openai.com/api-keys',
-                linkText: 'platform.openai.com',
-                models: ['gpt-4o', 'gpt-4-turbo', 'gpt-3.5-turbo']
+                linkText: 'OpenAI API Keys',
+                keyPlaceholder: 'sk-…',
+                keyGuidance: 'Create a project API key. ChatGPT subscriptions do not include API usage; API billing is configured separately.',
+                models: ['gpt-4.1', 'gpt-4.1-mini', 'gpt-4o-mini']
             },
             anthropic: {
                 endpoint: 'https://api.anthropic.com/v1/messages',
-                link: 'https://console.anthropic.com/',
-                linkText: 'console.anthropic.com',
-                models: ['claude-3-5-sonnet-20241022', 'claude-3-opus-20240229', 'claude-3-haiku-20240307']
+                link: 'https://console.anthropic.com/settings/keys',
+                linkText: 'Anthropic Console',
+                keyPlaceholder: 'sk-ant-…',
+                keyGuidance: 'Create an API key in Anthropic Console and ensure the workspace has API credits or billing.',
+                models: ['claude-sonnet-4-20250514', 'claude-3-5-haiku-20241022']
             },
             google: {
                 endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/',
-                link: 'https://makersuite.google.com/app/apikey',
-                linkText: 'makersuite.google.com',
-                models: ['gemini-2.0-flash-exp', 'gemini-1.5-pro', 'gemini-1.5-flash']
+                link: 'https://aistudio.google.com/app/apikey',
+                linkText: 'Google AI Studio',
+                keyPlaceholder: 'Enter your Google AI API key',
+                keyGuidance: 'Create a Gemini API key in Google AI Studio and select or create a Google Cloud project.',
+                models: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash']
             }
         };
 
@@ -976,11 +987,18 @@
             if (!config) return;
 
             // Update link
-            const apiKeyLink = document.getElementById('api-key-link');
             const apiKeyInfo = document.getElementById('api-key-info');
-            apiKeyLink.href = config.link;
-            apiKeyLink.textContent = config.linkText;
-            apiKeyInfo.innerHTML = `Get your API key at <a href="${config.link}" target="_blank" style="color: #3b82f6;">${config.linkText}</a>`;
+            apiKeyInfo.replaceChildren();
+            apiKeyInfo.append(`${config.keyGuidance} `);
+            const accountLink = document.createElement('a');
+            accountLink.id = 'api-key-link';
+            accountLink.href = config.link;
+            accountLink.target = '_blank';
+            accountLink.rel = 'noopener noreferrer';
+            accountLink.style.color = '#3b82f6';
+            accountLink.textContent = config.linkText;
+            apiKeyInfo.appendChild(accountLink);
+            document.getElementById('api-key').placeholder = config.keyPlaceholder;
 
             // Filter model dropdown
             const modelSelect = document.getElementById('api-model');
@@ -1001,34 +1019,57 @@
             }
         }
 
+        function loadQuickstartPreferences() {
+            try {
+                const stored = localStorage.getItem('repairAPIConfig');
+                if (!stored) return false;
+
+                const preferences = JSON.parse(stored);
+                const providerConfig = quickstartProviderConfigs[preferences.provider];
+                if (!providerConfig) return false;
+
+                // Older versions stored the key in this record. Remove it as
+                // soon as the preferences are read.
+                if (Object.prototype.hasOwnProperty.call(preferences, 'apiKey')) {
+                    localStorage.setItem('repairAPIConfig', JSON.stringify({
+                        provider: preferences.provider,
+                        model: preferences.model,
+                        endpoint: providerConfig.endpoint
+                    }));
+                }
+
+                document.getElementById('api-provider').value = preferences.provider;
+                updateQuickstartProvider();
+                if (providerConfig.models.includes(preferences.model)) {
+                    document.getElementById('api-model').value = preferences.model;
+                }
+                return true;
+            } catch (error) {
+                console.warn('Ignoring invalid saved API preferences:', error);
+                localStorage.removeItem('repairAPIConfig');
+                return false;
+            }
+        }
+
         // API Configuration Functions
         function saveAPIConfiguration() {
             const providerSelect = document.getElementById('api-provider');
-            const apiKeyInput = document.getElementById('api-key');
             const modelSelect = document.getElementById('api-model');
-            const statusMessage = document.getElementById('api-status-message');
 
             const provider = providerSelect.value;
-            const apiKey = apiKeyInput.value.trim();
             const model = modelSelect.value;
-
-            if (!apiKey) {
-                showStatus('❌ Please enter your API key', 'error');
-                return;
-            }
 
             try {
                 const providerConfig = quickstartProviderConfigs[provider];
                 const config = {
                     provider: provider,
-                    apiKey: apiKey,
                     model: model,
                     endpoint: providerConfig.endpoint
                 };
 
                 localStorage.setItem('repairAPIConfig', JSON.stringify(config));
 
-                showStatus('✅ Configuration saved successfully! You can now use this API key across all REPAIR Protocol pages.', 'success');
+                showStatus('✅ Provider and model preferences saved. For security, the API key remains only in this field and is not persisted.', 'success');
             } catch (error) {
                 showStatus('❌ Error saving configuration: ' + error.message, 'error');
             }
@@ -1042,6 +1083,7 @@
             const provider = providerSelect.value;
             const apiKey = apiKeyInput.value.trim();
             const model = modelSelect.value;
+            const testButton = document.getElementById('test-api-button');
 
             if (!apiKey) {
                 showStatus('❌ Please enter your API key first', 'error');
@@ -1049,6 +1091,8 @@
             }
 
             showStatus('🔄 Testing connection...', 'info');
+            testButton.disabled = true;
+            testButton.textContent = '🔄 Testing…';
 
             try {
                 const providerConfig = quickstartProviderConfigs[provider];
@@ -1059,7 +1103,8 @@
                     headers = {
                         'x-api-key': apiKey,
                         'Content-Type': 'application/json',
-                        'anthropic-version': '2023-06-01'
+                        'anthropic-version': '2023-06-01',
+                        'anthropic-dangerous-direct-browser-access': 'true'
                     };
                     requestBody = {
                         model: model,
@@ -1068,9 +1113,9 @@
                     };
                 } else if (provider === 'google') {
                     headers = {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'x-goog-api-key': apiKey
                     };
-                    const endpoint = `${providerConfig.endpoint}${model}:generateContent?key=${apiKey}`;
                     requestBody = {
                         contents: [{ parts: [{ text: 'Hello! This is a test message.' }] }]
                     };
@@ -1088,7 +1133,7 @@
                 }
 
                 const endpoint = provider === 'google'
-                    ? `${providerConfig.endpoint}${model}:generateContent?key=${apiKey}`
+                    ? `${providerConfig.endpoint}${encodeURIComponent(model)}:generateContent`
                     : providerConfig.endpoint;
 
                 const response = await fetch(endpoint, {
@@ -1097,14 +1142,28 @@
                     body: JSON.stringify(requestBody)
                 });
 
+                const responseText = await response.text();
+                let responseData = {};
+                try {
+                    responseData = responseText ? JSON.parse(responseText) : {};
+                } catch (error) {
+                    responseData = { message: responseText };
+                }
+
                 if (response.ok) {
                     showStatus(`✅ Connection successful! Your ${provider.toUpperCase()} API key is working with ${model}`, 'success');
                 } else {
-                    const error = await response.json();
-                    showStatus('❌ Connection failed: ' + (error.error?.message || error.message || 'Invalid API key or model'), 'error');
+                    const errorMessage = responseData.error?.message
+                        || responseData.error?.type
+                        || responseData.message
+                        || `HTTP ${response.status}`;
+                    showStatus(`❌ ${provider.toUpperCase()} test failed (${response.status}): ${errorMessage}`, 'error');
                 }
             } catch (error) {
-                showStatus('❌ Connection error: ' + error.message, 'error');
+                showStatus('❌ Connection error: ' + error.message + '. Confirm the key, account billing/credits, model access, and browser network permissions.', 'error');
+            } finally {
+                testButton.disabled = false;
+                testButton.textContent = '🧪 Test Connection';
             }
         }
 
@@ -1393,6 +1452,7 @@
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', () => {
             initializeTheme();
+            if (!loadQuickstartPreferences()) updateQuickstartProvider();
             setupSeamlessNavigation();
             new APIQuickstart();
         });

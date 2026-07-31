@@ -2831,14 +2831,10 @@
                     <div class="config-input-group">
                         <label class="config-label">Provider</label>
                         <select class="config-select" id="config-provider" onchange="updateProviderSettings()">
-                            <option value="groq" selected>Groq (Ultra-Fast Inference)</option>
-                            <option value="openai">OpenAI (GPT Models)</option>
-                            <option value="anthropic">Anthropic (Claude)</option>
-                            <option value="google">Google (Gemini)</option>
-                            <option value="custom">Custom API Endpoint</option>
+                            <option value="groq" selected>Groq</option>
                         </select>
                         <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;" id="provider-info">
-                            Get your free API key at <a href="https://console.groq.com/" target="_blank" style="color: #3b82f6;" id="provider-link">console.groq.com</a>
+                            The in-app assistant currently supports Groq. <a href="api-quickstart.html" style="color: #3b82f6;">Use the setup page to test OpenAI, Anthropic, or Google separately.</a>
                         </p>
                     </div>
                     <div class="config-input-group">
@@ -2846,21 +2842,9 @@
                         <select class="config-select" id="config-model">
                             <!-- Groq models -->
                             <option value="llama-3.3-70b-versatile" data-provider="groq" selected>Llama 3.3 70B (Recommended)</option>
-                            <option value="llama-3.1-70b-versatile" data-provider="groq">Llama 3.1 70B</option>
-                            <option value="mixtral-8x7b-32768" data-provider="groq">Mixtral 8x7B</option>
-                            <option value="gemma2-9b-it" data-provider="groq">Gemma 2 9B</option>
-                            <!-- OpenAI models -->
-                            <option value="gpt-4o" data-provider="openai">GPT-4o</option>
-                            <option value="gpt-4-turbo" data-provider="openai">GPT-4 Turbo</option>
-                            <option value="gpt-3.5-turbo" data-provider="openai">GPT-3.5 Turbo</option>
-                            <!-- Anthropic models -->
-                            <option value="claude-3-5-sonnet-20241022" data-provider="anthropic">Claude 3.5 Sonnet</option>
-                            <option value="claude-3-opus-20240229" data-provider="anthropic">Claude 3 Opus</option>
-                            <option value="claude-3-haiku-20240307" data-provider="anthropic">Claude 3 Haiku</option>
-                            <!-- Google models -->
-                            <option value="gemini-2.0-flash-exp" data-provider="google">Gemini 2.0 Flash</option>
-                            <option value="gemini-1.5-pro" data-provider="google">Gemini 1.5 Pro</option>
-                            <option value="gemini-1.5-flash" data-provider="google">Gemini 1.5 Flash</option>
+                            <option value="llama-3.1-8b-instant" data-provider="groq">Llama 3.1 8B Instant</option>
+                            <option value="meta-llama/llama-4-scout-17b-16e-instruct" data-provider="groq">Llama 4 Scout</option>
+                            <option value="openai/gpt-oss-120b" data-provider="groq">GPT-OSS 120B</option>
                         </select>
                     </div>
                 </div>
@@ -2870,10 +2854,10 @@
                 </div>
                 <div class="config-input-group">
                     <label class="config-label">API Key</label>
-                    <input type="password" class="config-input" id="config-api-key" placeholder="Enter your API key" id="api-key-placeholder">
-                    <div class="config-status" id="connection-status">
-                        <div class="status-indicator" id="connection-indicator"></div>
-                        <span id="connection-text">Not tested</span>
+                    <input type="password" class="config-input" id="config-api-key" placeholder="Enter your API key">
+                    <div class="config-status" id="config-connection-status">
+                        <div class="status-indicator" id="config-connection-indicator"></div>
+                        <span id="config-connection-text">Not tested</span>
                     </div>
                 </div>
             </div>
@@ -2906,12 +2890,12 @@
                         <input type="number" class="config-input" id="config-rpm" min="1" max="100" value="10">
                     </div>
                     <div class="config-input-group">
-                        <label class="config-label">Requests per Hour</label>
-                        <input type="number" class="config-input" id="config-rph" min="10" max="1000" value="100">
+                        <label class="config-label">Requests per Day</label>
+                        <input type="number" class="config-input" id="config-rph" min="10" max="100000" value="14400">
                     </div>
                     <div class="config-input-group">
-                        <label class="config-label">Daily Token Limit</label>
-                        <input type="number" class="config-input" id="config-daily-limit" min="1000" max="50000" value="10000">
+                        <label class="config-label">Tracked Tokens Used</label>
+                        <input type="number" class="config-input" id="config-daily-limit" value="0" readonly>
                     </div>
                 </div>
             </div>
@@ -4243,7 +4227,10 @@ Date: ${date}`;
                     
                     // Update contract with signed version
                     const signedContract = generateContract();
-                    contractPreview.innerHTML = '<pre style="white-space: pre-wrap;">' + signedContract + '</pre>';
+                    const preview = document.createElement('pre');
+                    preview.style.whiteSpace = 'pre-wrap';
+                    preview.textContent = signedContract;
+                    contractPreview.replaceChildren(preview);
                     
                     // Hide sign button and show action buttons
                     const signButton = document.getElementById('signRepairButton');
@@ -4368,45 +4355,16 @@ Date: ${date}`;
         }
 
         function closeAPIConfig() {
-            document.getElementById('api-config-modal').classList.remove('active');
+            const modal = document.getElementById('api-config-modal');
+            if (modal) modal.classList.remove('active');
         }
 
         // Provider configuration mappings
         const providerConfigs = {
             groq: {
                 endpoint: 'https://api.groq.com/openai/v1/chat/completions',
-                link: 'https://console.groq.com/',
-                linkText: 'console.groq.com',
                 keyPlaceholder: 'Enter your Groq API key (starts with gsk_)',
-                models: ['llama-3.3-70b-versatile', 'llama-3.1-70b-versatile', 'mixtral-8x7b-32768', 'gemma2-9b-it']
-            },
-            openai: {
-                endpoint: 'https://api.openai.com/v1/chat/completions',
-                link: 'https://platform.openai.com/api-keys',
-                linkText: 'platform.openai.com',
-                keyPlaceholder: 'Enter your OpenAI API key (starts with sk-)',
-                models: ['gpt-4o', 'gpt-4-turbo', 'gpt-3.5-turbo']
-            },
-            anthropic: {
-                endpoint: 'https://api.anthropic.com/v1/messages',
-                link: 'https://console.anthropic.com/',
-                linkText: 'console.anthropic.com',
-                keyPlaceholder: 'Enter your Anthropic API key (starts with sk-ant-)',
-                models: ['claude-3-5-sonnet-20241022', 'claude-3-opus-20240229', 'claude-3-haiku-20240307']
-            },
-            google: {
-                endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/',
-                link: 'https://makersuite.google.com/app/apikey',
-                linkText: 'makersuite.google.com',
-                keyPlaceholder: 'Enter your Google API key',
-                models: ['gemini-2.0-flash-exp', 'gemini-1.5-pro', 'gemini-1.5-flash']
-            },
-            custom: {
-                endpoint: '',
-                link: '#',
-                linkText: 'your provider',
-                keyPlaceholder: 'Enter your API key',
-                models: []
+                models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'meta-llama/llama-4-scout-17b-16e-instruct', 'openai/gpt-oss-120b']
             }
         };
 
@@ -4418,20 +4376,8 @@ Date: ${date}`;
 
             // Update endpoint
             const endpointInput = document.getElementById('config-endpoint');
-            if (provider !== 'custom') {
-                endpointInput.value = config.endpoint;
-                endpointInput.readOnly = true;
-            } else {
-                endpointInput.value = '';
-                endpointInput.readOnly = false;
-            }
-
-            // Update provider info link
-            const providerLink = document.getElementById('provider-link');
-            const providerInfo = document.getElementById('provider-info');
-            providerLink.href = config.link;
-            providerLink.textContent = config.linkText;
-            providerInfo.innerHTML = `Get your API key at <a href="${config.link}" target="_blank" style="color: #3b82f6;">${config.linkText}</a>`;
+            endpointInput.value = config.endpoint;
+            endpointInput.readOnly = true;
 
             // Update API key placeholder
             const apiKeyInput = document.getElementById('config-api-key');
@@ -4443,7 +4389,7 @@ Date: ${date}`;
 
             allOptions.forEach(option => {
                 const optionProvider = option.getAttribute('data-provider');
-                if (provider === 'custom' || optionProvider === provider) {
+                if (optionProvider === provider) {
                     option.style.display = '';
                 } else {
                     option.style.display = 'none';
@@ -4461,31 +4407,30 @@ Date: ${date}`;
 
             const config = window.repairAPIConfig.config;
 
-            // Load primary configuration
-            document.getElementById('config-provider').value = config.primary.provider;
+            document.getElementById('config-provider').value = config.provider || 'groq';
 
             // Update provider-specific settings first
             updateProviderSettings();
 
             // Then set the specific model and other values
-            document.getElementById('config-model').value = config.primary.model;
-            document.getElementById('config-endpoint').value = config.primary.endpoint;
-            document.getElementById('config-temperature').value = config.primary.temperature;
-            document.getElementById('config-max-tokens').value = config.primary.maxTokens;
-            document.getElementById('config-timeout').value = config.primary.timeout;
+            document.getElementById('config-model').value = config.model;
+            document.getElementById('config-endpoint').value = config.endpoint;
+            document.getElementById('config-temperature').value = config.temperature;
+            document.getElementById('config-max-tokens').value = config.maxTokens;
+            document.getElementById('config-timeout').value = config.timeout;
 
             // Load rate limiting
             document.getElementById('config-rpm').value = config.rateLimiting.requestsPerMinute;
-            document.getElementById('config-rph').value = config.rateLimiting.requestsPerHour;
-            document.getElementById('config-daily-limit').value = config.usage.monthlyLimit;
+            document.getElementById('config-rph').value = config.rateLimiting.requestsPerDay;
+            document.getElementById('config-daily-limit').value = config.usage.tokensUsed;
 
             // Load features
             document.getElementById('feature-conversation-history').checked = config.features.conversationHistory;
             document.getElementById('feature-real-time-feedback').checked = config.features.realTimeFeedback;
             document.getElementById('feature-emotional-analysis').checked = config.features.emotionalAnalysis;
             document.getElementById('feature-bias-detection').checked = config.features.biasDetection;
-            document.getElementById('feature-progress-tracking').checked = config.features.progressTracking;
-            document.getElementById('feature-auto-save').checked = config.features.autoSave;
+            document.getElementById('feature-progress-tracking').checked = config.features.progressTracking ?? true;
+            document.getElementById('feature-auto-save').checked = config.features.autoSave ?? true;
 
             // Add event listeners for real-time code example updates
             addCodeExampleUpdateListeners();
@@ -4529,10 +4474,7 @@ Date: ${date}`;
                     },
                     rateLimiting: {
                         requestsPerMinute: parseInt(document.getElementById('config-rpm').value),
-                        requestsPerHour: parseInt(document.getElementById('config-rph').value)
-                    },
-                    usage: {
-                        monthlyLimit: parseInt(document.getElementById('config-daily-limit').value)
+                        requestsPerDay: parseInt(document.getElementById('config-rph').value)
                     },
                     features: {
                         conversationHistory: document.getElementById('feature-conversation-history').checked,
@@ -4551,20 +4493,23 @@ Date: ${date}`;
 
                 window.repairAPIConfig.updateConfig(config);
 
-                alert('Configuration saved successfully!');
-                closeAPIConfig();
-
-                // Update AI badge status
-                updateAIBadge();
-
-                // Reinitialize if in AI mode
-                if (aiMode) {
-                    await initializeGPTIntegration();
-                }
-
             } catch (error) {
                 console.error('Error saving configuration:', error);
                 alert('Failed to save configuration: ' + error.message);
+                return;
+            }
+
+            alert('Configuration saved successfully!');
+            closeAPIConfig();
+            updateAIBadge();
+
+            // Initialization is a separate operation: a missing panel or a
+            // provider error must not turn a successful save into a save error.
+            if (aiMode) {
+                const initialized = await initializeGPTIntegration();
+                if (!initialized) {
+                    console.warn('Configuration saved, but AI initialization did not complete.');
+                }
             }
         }
 
@@ -5052,9 +4997,9 @@ sendRepairRequest('Help me craft a sincere apology using the REPAIR framework')
             if (modelSelect.options.length === 0) {
                 const groqModels = [
                     { value: 'llama-3.3-70b-versatile', text: 'Llama 3.3 70B (Recommended)' },
-                    { value: 'llama-3.1-70b-versatile', text: 'Llama 3.1 70B' },
-                    { value: 'mixtral-8x7b-32768', text: 'Mixtral 8x7B' },
-                    { value: 'gemma2-9b-it', text: 'Gemma 2 9B' }
+                    { value: 'llama-3.1-8b-instant', text: 'Llama 3.1 8B Instant' },
+                    { value: 'meta-llama/llama-4-scout-17b-16e-instruct', text: 'Llama 4 Scout' },
+                    { value: 'openai/gpt-oss-120b', text: 'GPT-OSS 120B' }
                 ];
                 groqModels.forEach(model => {
                     const option = document.createElement('option');
@@ -5273,38 +5218,38 @@ sendRepairRequest('Help me craft a sincere apology using the REPAIR framework')
 
         // UI Update Functions
         function updateAPIStatus(status, message) {
-            const indicator = document.getElementById('api-status-indicator');
-            const text = document.getElementById('api-status-text');
+            const normalizedStatus = ['success', 'warning', 'error'].includes(status)
+                ? status
+                : 'warning';
+            const statusTargets = [
+                ['api-status-indicator', 'api-status-text', true],
+                ['config-connection-indicator', 'config-connection-text', false],
+                ['connection-indicator', 'connection-text', false]
+            ];
 
-            indicator.className = `status-indicator ${status}`;
+            statusTargets.forEach(([indicatorId, textId, includeProvider]) => {
+                const indicator = document.getElementById(indicatorId);
+                const text = document.getElementById(textId);
+                if (!indicator || !text) return;
 
-            // Add provider information to the message
-            const providerText = ' (Groq)';
-
-            text.textContent = message + providerText;
-
-            // Also update connection status in modal if open
-            const connectionIndicator = document.getElementById('connection-indicator');
-            const connectionText = document.getElementById('connection-text');
-            if (connectionIndicator && connectionText) {
-                connectionIndicator.className = `status-indicator ${status}`;
-                connectionText.textContent = message;
-            }
+                indicator.className = `status-indicator ${normalizedStatus}`;
+                text.textContent = `${message}${includeProvider ? ' (Groq)' : ''}`;
+            });
         }
 
         function showAPISetupPanel() {
             const panel = document.getElementById('ai-config-panel');
-            panel.classList.add('active');
+            if (panel) panel.classList.add('active');
         }
 
         function hideAPISetupPanel() {
             const panel = document.getElementById('ai-config-panel');
-            panel.classList.remove('active');
+            if (panel) panel.classList.remove('active');
         }
 
         function showChatInterface() {
             const chatInterface = document.getElementById('chat-interface');
-            chatInterface.classList.add('active');
+            if (chatInterface) chatInterface.classList.add('active');
         }
 
         function updateUsageStats() {
@@ -5312,11 +5257,17 @@ sendRepairRequest('Help me craft a sincere apology using the REPAIR framework')
 
             const stats = window.repairAPIConfig.getUsageStats();
 
-            document.getElementById('requests-today').textContent = stats.requestsToday;
-            document.getElementById('tokens-used').textContent = stats.tokensUsed;
-            document.getElementById('success-rate').textContent = Math.round(stats.percentageUsed) + '%';
+            const requestsToday = document.getElementById('requests-today');
+            const tokensUsed = document.getElementById('tokens-used');
+            const successRate = document.getElementById('success-rate');
+            const usageStats = document.getElementById('usage-stats');
 
-            document.getElementById('usage-stats').style.display = 'grid';
+            if (requestsToday) requestsToday.textContent = stats.requestsToday;
+            if (tokensUsed) tokensUsed.textContent = stats.tokensUsed;
+            if (successRate && Number.isFinite(stats.percentageUsed)) {
+                successRate.textContent = Math.round(stats.percentageUsed) + '%';
+            }
+            if (usageStats) usageStats.style.display = 'grid';
         }
 
         function updateContextualInsights(insights) {
@@ -5363,35 +5314,40 @@ sendRepairRequest('Help me craft a sincere apology using the REPAIR framework')
             aiMode = enable;
 
             // Update toggle UI
-            document.getElementById('standard-toggle').classList.toggle('active', !enable);
-            document.getElementById('ai-toggle').classList.toggle('active', enable);
+            const standardToggle = document.getElementById('standard-toggle');
+            const aiToggle = document.getElementById('ai-toggle');
+            if (standardToggle) standardToggle.classList.toggle('active', !enable);
+            if (aiToggle) aiToggle.classList.toggle('active', enable);
 
             // Update main content layout
             const mainContent = document.getElementById('main-content');
-            mainContent.classList.toggle('ai-mode', enable);
+            if (mainContent) mainContent.classList.toggle('ai-mode', enable);
 
             // Show/hide agent panel
             const agentPanel = document.getElementById('agent-panel');
-            agentPanel.classList.toggle('active', enable);
+            if (agentPanel) agentPanel.classList.toggle('active', enable);
 
             // Update description
             const description = document.getElementById('mode-description');
             if (enable) {
-                description.textContent = 'AI-enhanced version with real-time GPT analysis, intelligent feedback, and personalized coaching.';
+                if (description) description.textContent = 'AI-enhanced version with real-time GPT analysis, intelligent feedback, and personalized coaching.';
 
                 // Initialize GPT integration
                 await initializeGPTIntegration();
             } else {
-                description.textContent = 'Experience the foundational REPAIR Protocol with comprehensive 8-phase workflow.';
+                if (description) description.textContent = 'Experience the foundational REPAIR Protocol with comprehensive 8-phase workflow.';
 
                 // Clean up GPT integration
                 if (repairAssistant) {
                     repairAssistant.endSession();
                 }
                 hideAPISetupPanel();
-                document.getElementById('chat-interface').classList.remove('active');
-                document.getElementById('contextual-insights').style.display = 'none';
-                document.getElementById('conversation-history').style.display = 'none';
+                const chatInterface = document.getElementById('chat-interface');
+                if (chatInterface) chatInterface.classList.remove('active');
+                const contextualInsights = document.getElementById('contextual-insights');
+                const conversationHistory = document.getElementById('conversation-history');
+                if (contextualInsights) contextualInsights.style.display = 'none';
+                if (conversationHistory) conversationHistory.style.display = 'none';
             }
         }
 

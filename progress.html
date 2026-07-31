@@ -2012,10 +2012,16 @@
                 analysis.redFlags.forEach(flag => {
                     const flagItem = document.createElement('div');
                     flagItem.className = 'red-flag-item';
-                    flagItem.innerHTML = `
-                        <span class="red-flag-severity ${flag.severity}">${flag.severity}</span>
-                        <div class="red-flag-description">${flag.description}</div>
-                    `;
+                    const severity = document.createElement('span');
+                    const severityClass = ['low', 'medium', 'high', 'critical'].includes(flag.severity)
+                        ? flag.severity
+                        : 'medium';
+                    severity.className = `red-flag-severity ${severityClass}`;
+                    severity.textContent = String(flag.severity || 'unknown');
+                    const description = document.createElement('div');
+                    description.className = 'red-flag-description';
+                    description.textContent = String(flag.description || '');
+                    flagItem.append(severity, description);
                     redFlagsList.appendChild(flagItem);
                 });
 
@@ -2032,14 +2038,30 @@
                 analysis.recommendations.forEach(rec => {
                     const recItem = document.createElement('div');
                     recItem.className = 'recommendation-item';
-                    recItem.innerHTML = `
-                        <div class="recommendation-header">
-                            <span class="recommendation-priority ${rec.priority}">${rec.priority}</span>
-                            <span class="recommendation-category">${rec.category.replace(/_/g, ' ')}</span>
-                        </div>
-                        <div class="recommendation-suggestion">${rec.suggestion}</div>
-                        ${rec.example ? `<div class="recommendation-example">${rec.example}</div>` : ''}
-                    `;
+                    const header = document.createElement('div');
+                    header.className = 'recommendation-header';
+                    const priority = document.createElement('span');
+                    const priorityClass = ['low', 'medium', 'high'].includes(rec.priority)
+                        ? rec.priority
+                        : 'medium';
+                    priority.className = `recommendation-priority ${priorityClass}`;
+                    priority.textContent = String(rec.priority || 'medium');
+                    const category = document.createElement('span');
+                    category.className = 'recommendation-category';
+                    category.textContent = String(rec.category || 'general').replace(/_/g, ' ');
+                    header.append(priority, category);
+
+                    const suggestion = document.createElement('div');
+                    suggestion.className = 'recommendation-suggestion';
+                    suggestion.textContent = String(rec.suggestion || '');
+                    recItem.append(header, suggestion);
+
+                    if (rec.example) {
+                        const example = document.createElement('div');
+                        example.className = 'recommendation-example';
+                        example.textContent = String(rec.example);
+                        recItem.appendChild(example);
+                    }
                     recommendationsList.appendChild(recItem);
                 });
 

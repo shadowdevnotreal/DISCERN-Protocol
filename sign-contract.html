@@ -1426,119 +1426,31 @@
             document.getElementById('viewModal').classList.remove('show');
         }
 
+
         function printContract() {
             const printWindow = window.open('', '_blank');
-            printWindow.document.write('<html><head><title>Contract</title></head><body>');
-            printWindow.document.write('<pre style="font-family: monospace; white-space: pre-wrap; line-height: 1.6;">');
-            printWindow.document.write(contractContent.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-            printWindow.document.write('</pre>
-        // Chatbot Functions
-        function toggleChatWidget() {
-            const chatPanel = document.getElementById('agent-panel');
-            const chatButton = document.getElementById('floating-chat-button');
-            if (chatPanel.classList.contains('active')) {
-                chatPanel.classList.remove('active');
-                chatButton.classList.remove('hidden');
-            } else {
-                chatPanel.classList.add('active');
-                chatButton.classList.add('hidden');
+            if (!printWindow) {
+                alert('Please allow pop-ups to print the contract.');
+                return;
             }
-        }
 
-        function sendChatMessage() {
-            const input = document.getElementById('chat-input');
-            const message = input.value.trim();
-
-            if (message) {
-                addChatMessage(message, 'user');
-                input.value = '';
-
-                setTimeout(() => {
-                    addChatMessage('Thank you for reaching out! I\'m here to support your REPAIR journey. How can I help you today?', 'assistant');
-                }, 1000);
-            }
-        }
-
-        function addChatMessage(content, sender) {
-            const messagesContainer = document.getElementById('chat-messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `chat-message ${sender}`;
-
-            const avatar = document.createElement('div');
-            avatar.className = `chat-avatar ${sender}`;
-            avatar.textContent = sender === 'assistant' ? '❤️' : '👤';
-
-            const bubble = document.createElement('div');
-            bubble.className = `chat-bubble ${sender}`;
-            bubble.textContent = content;
-
-            messageDiv.appendChild(avatar);
-            messageDiv.appendChild(bubble);
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        // Initialize chatbot
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                addChatMessage('Welcome to the REPAIR Contract System! ❤️ This commitment tool helps solidify accountability and intentions. I can guide you through creating your contract and explain each section. How can I help?', 'assistant');
-            }, 500);
-
-            const chatInput = document.getElementById('chat-input');
-            if (chatInput) {
-                chatInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        sendChatMessage();
-                    }
-                });
-            }
-        });
-    </script>
-
-    <!-- Floating Chat Button -->
-    <button id="floating-chat-button" class="floating-chat-button" onclick="toggleChatWidget()" aria-label="Open chat">
-        ❤️
-    </button>
-
-    <!-- Chat Panel -->
-    <div id="agent-panel" class="chat-widget-panel">
-        <div class="chat-widget-header">
-            <div class="chat-header-title">
-                <span class="chat-icon">❤️</span>
-                <span>REPAIR Guide</span>
-            </div>
-            <div class="chat-header-actions">
-                <button class="chat-action-btn" onclick="toggleChatWidget()" aria-label="Close">
-                    ✕
-                </button>
-            </div>
-        </div>
-        <div class="chat-widget-body">
-            <div id="chat-messages" class="chat-messages"></div>
-            <div class="chat-input-area">
-                <textarea id="chat-input" class="chat-input"
-                       placeholder="Ask about the REPAIR process, relationship healing, or reconciliation strategies..."
-                       aria-label="Chat input"></textarea>
-                <button class="send-button" onclick="sendChatMessage()" aria-label="Send message">
-                    ➤
-                </button>
-            </div>
-        </div>
-    </div>
-</body></html>');
+            printWindow.document.open();
+            printWindow.document.write('<!DOCTYPE html><html><head><title>Contract</title></head><body></body></html>');
+            const preview = printWindow.document.createElement('pre');
+            preview.style.cssText = 'font-family: monospace; white-space: pre-wrap; line-height: 1.6;';
+            preview.textContent = contractContent;
+            printWindow.document.body.appendChild(preview);
             printWindow.document.close();
             printWindow.print();
         }
 
         // Close modal when clicking outside
-        window.onclick = function(event) {
+        window.addEventListener('click', function(event) {
             const modal = document.getElementById('viewModal');
             if (event.target === modal) {
                 closeModal();
             }
-        }
-    </script>
+        });
 
         // Chatbot Functions
         function toggleChatWidget() {

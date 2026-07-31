@@ -18,9 +18,9 @@ class APIConfig {
             // Available Groq models
             availableModels: [
                 'llama-3.3-70b-versatile',
-                'llama-3.1-70b-versatile',
-                'mixtral-8x7b-32768',
-                'gemma2-9b-it'
+                'llama-3.1-8b-instant',
+                'meta-llama/llama-4-scout-17b-16e-instruct',
+                'openai/gpt-oss-120b'
             ],
 
             // Git integration settings
@@ -303,9 +303,9 @@ class APIConfig {
 
             availableModels: [
                 'llama-3.3-70b-versatile',
-                'llama-3.1-70b-versatile',
-                'mixtral-8x7b-32768',
-                'gemma2-9b-it'
+                'llama-3.1-8b-instant',
+                'meta-llama/llama-4-scout-17b-16e-instruct',
+                'openai/gpt-oss-120b'
             ],
 
             git: {

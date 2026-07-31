@@ -571,8 +571,11 @@
 
             risks.forEach(risk => {
                 const warning = document.createElement('div');
-                warning.className = `insight-item ${risk.type}`;
-                warning.innerHTML = `<strong>${risk.severity.toUpperCase()}:</strong> ${risk.message}`;
+                const riskType = ['warning', 'danger', 'info'].includes(risk.type) ? risk.type : 'warning';
+                warning.className = `insight-item ${riskType}`;
+                const severity = document.createElement('strong');
+                severity.textContent = `${String(risk.severity || 'warning').toUpperCase()}:`;
+                warning.append(severity, ` ${String(risk.message || '')}`);
                 warningsList.appendChild(warning);
             });
         },

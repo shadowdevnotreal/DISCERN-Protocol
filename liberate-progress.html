@@ -818,8 +818,7 @@
             { id: 24, phase: 6, text: 'Celebrated my growth and resilience', completed: false }
         ];
 
-        // Initialize from localStorage
-        let progressData = JSON.parse(localStorage.getItem('liberateProgress')) || {
+        const defaultProgressData = {
             startDate: new Date().toISOString(),
             currentPhase: 1,
             completedMilestones: [],
@@ -832,6 +831,63 @@
             }
         };
 
+        function loadStoredObject(key, fallback) {
+            try {
+                const stored = localStorage.getItem(key);
+                if (!stored) return fallback;
+                const parsed = JSON.parse(stored);
+                return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+                    ? parsed
+                    : fallback;
+            } catch (error) {
+                console.warn(`Ignoring invalid stored data for ${key}:`, error);
+                return fallback;
+            }
+        }
+
+        function normalizeMetric(value, fallback) {
+            const number = Number(value);
+            return Number.isFinite(number)
+                ? Math.min(100, Math.max(0, number))
+                : fallback;
+        }
+
+        function normalizeDate(value, fallback) {
+            const date = new Date(value);
+            return Number.isNaN(date.getTime()) ? fallback : date.toISOString();
+        }
+
+        const storedProgress = loadStoredObject('liberateProgress', {});
+        const storedMetrics = storedProgress.healingMetrics
+            && typeof storedProgress.healingMetrics === 'object'
+            && !Array.isArray(storedProgress.healingMetrics)
+            ? storedProgress.healingMetrics
+            : {};
+        let progressData = {
+            ...defaultProgressData,
+            ...storedProgress,
+            startDate: normalizeDate(storedProgress.startDate, defaultProgressData.startDate),
+            currentPhase: Number.isInteger(storedProgress.currentPhase)
+                && storedProgress.currentPhase >= 1
+                && storedProgress.currentPhase <= 6
+                ? storedProgress.currentPhase
+                : defaultProgressData.currentPhase,
+            completedMilestones: Array.isArray(storedProgress.completedMilestones)
+                ? storedProgress.completedMilestones.filter(id => Number.isInteger(id) && id >= 1 && id <= 24)
+                : defaultProgressData.completedMilestones,
+            journalEntries: Array.isArray(storedProgress.journalEntries)
+                ? storedProgress.journalEntries.filter(entry =>
+                    entry && typeof entry === 'object' && typeof entry.text === 'string'
+                )
+                : defaultProgressData.journalEntries,
+            healingMetrics: {
+                emotional: normalizeMetric(storedMetrics.emotional, defaultProgressData.healingMetrics.emotional),
+                financial: normalizeMetric(storedMetrics.financial, defaultProgressData.healingMetrics.financial),
+                social: normalizeMetric(storedMetrics.social, defaultProgressData.healingMetrics.social),
+                physical: normalizeMetric(storedMetrics.physical, defaultProgressData.healingMetrics.physical)
+            }
+        };
+
         // Save progress
         function saveProgress() {
             localStorage.setItem('liberateProgress', JSON.stringify(progressData));
@@ -839,9 +895,9 @@
         }
 
         // Load contract data if exists
-        const contractData = JSON.parse(localStorage.getItem('liberateContract'));
+        const contractData = loadStoredObject('liberateContract', null);
         if (contractData && contractData.startDate) {
-            progressData.startDate = new Date(contractData.startDate).toISOString();
+            progressData.startDate = normalizeDate(contractData.startDate, progressData.startDate);
         }
 
         // Calculate days since start
@@ -966,10 +1022,16 @@
                 card.className = 'entry-card';
 
                 const date = new Date(entry.date);
-                card.innerHTML = `
-                    <div class="entry-date">${date.toLocaleDateString()} at ${date.toLocaleTimeString()}</div>
-                    <div class="entry-text">${entry.text}</div>
-                `;
+                const dateElement = document.createElement('div');
+                dateElement.className = 'entry-date';
+                dateElement.textContent = Number.isNaN(date.getTime())
+                    ? 'Date unavailable'
+                    : `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
+
+                const textElement = document.createElement('div');
+                textElement.className = 'entry-text';
+                textElement.textContent = entry.text;
+                card.append(dateElement, textElement);
 
                 container.appendChild(card);
             });

@@ -1321,41 +1321,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Theme management
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
-
-            if (newTheme === 'dark') {
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light Mode';
-            } else {
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark Mode';
-            }
-
-            localStorage.setItem('theme', newTheme);
-        }
-
-        function initializeTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
-
-            if (savedTheme === 'dark') {
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light Mode';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', initializeTheme);
-
         // Chatbot Functions
         function toggleChatWidget() {
             const chatPanel = document.getElementById('agent-panel');

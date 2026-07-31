@@ -1328,49 +1328,9 @@
     </div>
 
     <script>
-        // Theme toggle function
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            
-            // Update theme toggle button
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
-            
-            if (newTheme === 'dark') {
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light Mode';
-            } else {
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark Mode';
-            }
-            
-            // Store preference
-            localStorage.setItem('theme', newTheme);
-        }
-
-        // Initialize theme
-        function initializeTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
-            
-            if (savedTheme === 'dark') {
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light Mode';
-            } else {
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark Mode';
-            }
-        }
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            initializeTheme();
             
             // Set up all expand buttons
             const expandBtns = document.querySelectorAll('.expand-btn');

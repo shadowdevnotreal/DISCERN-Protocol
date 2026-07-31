@@ -1309,45 +1309,6 @@
     <script src="agents/agent-coordinator.js"></script>
 
     <script>
-        // Theme management
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-            document.documentElement.setAttribute('data-theme', newTheme);
-
-            // Update theme toggle button
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
-
-            if (newTheme === 'dark') {
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light Mode';
-            } else {
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark Mode';
-            }
-
-            // Store preference
-            localStorage.setItem('theme', newTheme);
-        }
-
-        // Initialize theme
-        function initializeTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
-
-            if (savedTheme === 'dark') {
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light Mode';
-            } else {
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark Mode';
-            }
-        }
 
         // Initialize the agent system
         let agentCoordinator;
@@ -1356,7 +1317,6 @@
 
         // Initialize agents when page loads
         window.addEventListener('load', async function() {
-            initializeTheme();
             
             try {
                 agentCoordinator = new AgentCoordinator();

@@ -4188,29 +4188,22 @@ Date: ${date}`;
             if (modal) modal.classList.remove('active');
         }
 
-        // Provider configuration mappings
-        const providerConfigs = {
-            groq: {
-                endpoint: 'https://api.groq.com/openai/v1/chat/completions',
-                keyPlaceholder: 'Enter your Groq API key (starts with gsk_)',
-                models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'meta-llama/llama-4-scout-17b-16e-instruct', 'openai/gpt-oss-120b']
-            }
-        };
+        // Provider configuration is sourced from the shared window.repairAPIConfig instance (config/api-config.js)
 
         function updateProviderSettings() {
             const provider = document.getElementById('config-provider').value;
-            const config = providerConfigs[provider];
+            const apiCfg = window.repairAPIConfig && window.repairAPIConfig.config;
 
-            if (!config) return;
+            if (!apiCfg) return;
 
             // Update endpoint
             const endpointInput = document.getElementById('config-endpoint');
-            endpointInput.value = config.endpoint;
+            endpointInput.value = apiCfg.endpoint;
             endpointInput.readOnly = true;
 
             // Update API key placeholder
             const apiKeyInput = document.getElementById('config-api-key');
-            apiKeyInput.placeholder = config.keyPlaceholder;
+            apiKeyInput.placeholder = provider === 'groq' ? 'Enter your Groq API key (starts with gsk_)' : 'Enter your API key';
 
             // Filter model dropdown to show only models for this provider
             const modelSelect = document.getElementById('config-model');
@@ -4226,8 +4219,8 @@ Date: ${date}`;
             });
 
             // Select first available model for this provider
-            if (config.models.length > 0) {
-                modelSelect.value = config.models[0];
+            if (apiCfg.availableModels && apiCfg.availableModels.length > 0) {
+                modelSelect.value = apiCfg.availableModels[0];
             }
         }
 

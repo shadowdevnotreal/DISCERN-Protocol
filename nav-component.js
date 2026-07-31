@@ -35,6 +35,12 @@
         { key: 'liberate-framework',  href: 'liberate_visual_framework.html', emoji: '🎨', label: 'Framework' },
     ];
 
+    var DISCERN_LINKS = [
+        { key: 'home',       href: 'index.html',             emoji: '🏠', label: 'Home' },
+        { key: 'assessment', href: 'assessment.html',        emoji: '🧭', label: 'Assessment' },
+        { key: 'protocols',  href: 'protocol-selector.html', emoji: '🔀', label: 'Choose Protocol' },
+    ];
+
     // CSS is provided by desktop-enhancements.css — no runtime injection needed.
 
     // ── HTML builders ─────────────────────────────────────────────────────────
@@ -71,6 +77,13 @@
         return '<nav>\n    <div class="nav-container">\n' + links.join('\n') + '\n    </div>\n</nav>';
     }
 
+    function buildDiscernNav(activePage) {
+        var links = DISCERN_LINKS.map(function(item) {
+            return '        ' + buildLink(item, activePage);
+        });
+        return '<nav>\n    <div class="nav-container">\n' + links.join('\n') + '\n    </div>\n</nav>';
+    }
+
     // ── Public API ────────────────────────────────────────────────────────────
 
     window.initNav = function(config) {
@@ -83,7 +96,9 @@
         // Build and inject nav HTML
         var navHtml = cfg.type === 'liberate'
             ? buildLiberateNav(cfg.activePage)
-            : buildRepairNav(cfg.activePage, cfg.showApiSetup);
+            : cfg.type === 'discern'
+                ? buildDiscernNav(cfg.activePage)
+                : buildRepairNav(cfg.activePage, cfg.showApiSetup);
 
         document.body.insertAdjacentHTML('afterbegin', navHtml);
     };

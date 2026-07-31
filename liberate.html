@@ -7,6 +7,7 @@
     
     <link rel="stylesheet" href="desktop-enhancements.css">
     <script src="theme-system.js"></script>
+    <script src="nav-component.js"></script>
     
     <style>
         :root {
@@ -508,7 +509,7 @@
         <!-- Phase Navigation -->
         <div class="phase-navigation">
             <h2 class="phase-nav-title">8 Phases of Liberation</h2>
-            <div class="phase-grid">
+            <div class="phase-grid" id="liberate-phase-selector">
                 <div class="phase-nav-item active" onclick="showPhase(1)">
                     <div class="phase-number">Phase 1</div>
                     <div class="phase-name">LIMIT</div>
@@ -611,7 +612,7 @@
 
             <div class="action-buttons">
                 <button class="btn btn-primary" onclick="showPhase(2)">Next: IDENTIFY →</button>
-                <button class="btn btn-secondary" onclick="window.location.href='progress.html'">Track Progress</button>
+                <button class="btn btn-secondary" onclick="window.location.href='liberate-progress.html'">Track Progress</button>
             </div>
         </div>
 
@@ -1060,7 +1061,7 @@
 
             <div class="action-buttons">
                 <button class="btn btn-secondary" onclick="showPhase(7)">← Previous: TRANSFORM</button>
-                <button class="btn btn-primary" onclick="window.location.href='progress.html'">Track Your Journey</button>
+                <button class="btn btn-primary" onclick="window.location.href='liberate-progress.html'">Track Your Journey</button>
             </div>
         </div>
     </div>
@@ -1073,7 +1074,8 @@
             });
 
             // Remove active from navigation
-            document.querySelectorAll('.phase-nav-item').forEach(item => {
+            const phaseItems = document.querySelectorAll('#liberate-phase-selector .phase-nav-item');
+            phaseItems.forEach(item => {
                 item.classList.remove('active');
             });
 
@@ -1081,7 +1083,7 @@
             document.getElementById('phase-' + phaseNum).classList.add('active');
 
             // Highlight navigation
-            document.querySelectorAll('.phase-nav-item')[phaseNum - 1].classList.add('active');
+            phaseItems[phaseNum - 1].classList.add('active');
 
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1090,6 +1092,7 @@
         // Chatbot Functions
         // Initialize chatbot    </script>
 
+    <script>initNav({ type: 'liberate', activePage: 'liberate' });</script>
     <script src="chat-widget.js"></script>
     <script>
     initChatWidget({

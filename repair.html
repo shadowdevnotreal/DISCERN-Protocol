@@ -299,19 +299,6 @@
         [data-theme="dark"] .ai-status-badge.ready .ai-status-text {
             color: #34d399;
         }
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        }
-
-        .toggle-option:not(.active) {
-            color: var(--text-tertiary, #6b7280);
-        }
-
-        .toggle-option:not(.active):hover {
-            background: var(--bg-glass-hover, #f3f4f6);
-            color: var(--text-primary, #374151);
-        }
 
         /* Agent Analysis Panel */
         /* Floating Chat Widget */
@@ -2609,12 +2596,12 @@
         </div>
 
         <!-- Floating Chat Button -->
-        <button class="floating-chat-button" id="floating-chat-button" onclick="toggleChatWidget()" title="Open AI Assistant">
+        <button class="floating-chat-button" id="floating-chat-button" onclick="toggleChatWidget()" title="Open AI Assistant" aria-label="Open AI assistant" aria-expanded="false" aria-controls="agent-panel">
             ❤️
         </button>
 
         <!-- AI Agent Analysis Panel -->
-        <div class="agent-panel" id="agent-panel">
+        <div class="agent-panel" id="agent-panel" role="dialog" aria-label="REPAIR Guide" aria-hidden="true" inert>
             <div class="chat-widget-header" id="chat-widget-header">
                 <div class="chat-widget-title">
                     <span class="emoji">❤️</span> REPAIR Guide
@@ -2916,10 +2903,19 @@
 
             if (chatPanel.classList.contains('active')) {
                 chatPanel.classList.remove('active');
+                chatPanel.setAttribute('aria-hidden', 'true');
+                chatPanel.setAttribute('inert', '');
                 chatButton.classList.remove('hidden');
+                chatButton.setAttribute('aria-expanded', 'false');
+                chatButton.focus();
             } else {
                 chatPanel.classList.add('active');
+                chatPanel.setAttribute('aria-hidden', 'false');
+                chatPanel.removeAttribute('inert');
                 chatButton.classList.add('hidden');
+                chatButton.setAttribute('aria-expanded', 'true');
+                const chatInput = chatPanel.querySelector('textarea, input');
+                if (chatInput) chatInput.focus();
             }
         }
 
@@ -4094,15 +4090,7 @@ Date: ${date}`;
             printWindow.document.write('<html><head><title>REPAIR Pathway Contract | DISCERN Protocol</title></head><body>');
             printWindow.document.write('<pre style="font-family: monospace; white-space: pre-wrap; line-height: 1.6;">');
             printWindow.document.write(contractText.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-            printWindow.document.write('</pre>
-    <script>
-    initNav({
-        type:         'repair',
-        activePage:   'repair',
-        showApiSetup: true,
-    });
-    </script>
-</body></html>');
+            printWindow.document.write('</pre></body></html>');
             printWindow.document.close();
             printWindow.print();
         }

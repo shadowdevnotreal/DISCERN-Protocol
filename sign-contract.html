@@ -796,12 +796,6 @@
 
     <script>
 
-else {
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark Mode';
-            }
-        });
-
         // Signature Pad Setup
         const canvas1 = document.getElementById('signaturePad1');
         const canvas2 = document.getElementById('signaturePad2');
@@ -1074,29 +1068,7 @@ else {
             }
 
             printWindow.document.open();
-            printWindow.document.write('<!DOCTYPE html><html><head><title>Contract</title></head><body>
-    
-    <script>
-    initNav({
-        type:         'repair',
-        activePage:   'sign-contract',
-        showApiSetup: false,
-    });
-    </script>
-<script src="chat-widget.js"></script>
-    <script>
-    initChatWidget({
-        panelId:        'agent-panel',
-        icon:           '❤️',
-        title:          'REPAIR Guide',
-        gradient:       'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        hasMaximize:    false,
-        placeholder:    'Ask about the REPAIR process, relationship healing, or reconciliation strategies...',
-        welcomeMessage: 'Welcome to the REPAIR Contract System! ❤️ This commitment tool helps solidify accountability and intentions. I can guide you through creating your contract and explain each section. How can I help?',
-        response:       'Thank you for reaching out! I\'m here to support your REPAIR journey. How can I help you today?',
-    });
-    </script>
-</body></html>');
+            printWindow.document.write('<!DOCTYPE html><html><head><title>Contract</title></head><body></body></html>');
             const preview = printWindow.document.createElement('pre');
             preview.style.cssText = 'font-family: monospace; white-space: pre-wrap; line-height: 1.6;';
             preview.textContent = contractContent;

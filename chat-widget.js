@@ -49,7 +49,7 @@ function initChatWidget(config) {
         ? '<button class="chat-action-btn" onclick="toggleMaximize()" aria-label="Maximize">⛶</button>\n                '
         : '';
 
-    var html = '\n    <button id="floating-chat-button" class="floating-chat-button" onclick="toggleChatWidget()" aria-label="Open chat">\n        ' + cfg.icon + '\n    </button>\n\n    <!-- Chat Panel -->\n    <div id="' + cfg.panelId + '" class="chat-widget-panel">\n        <div class="chat-widget-header">\n            <div class="chat-header-title">\n                <span class="chat-icon">' + cfg.icon + '</span>\n                <span>' + cfg.title + '</span>\n            </div>\n            <div class="chat-header-actions">\n                ' + maximizeBtn + '<button class="chat-action-btn" onclick="toggleChatWidget()" aria-label="Close">\n                    \u2715\n                </button>\n            </div>\n        </div>\n        <div class="chat-widget-body">\n            <div id="chat-messages" class="chat-messages"></div>\n            <div class="chat-input-area">\n                <textarea id="chat-input" class="chat-input"\n                       placeholder="' + cfg.placeholder + '"\n                       aria-label="Chat input"></textarea>\n                <button class="send-button" onclick="sendChatMessage()" aria-label="Send message">\n                    \u27a4\n                </button>\n            </div>\n        </div>\n    </div>\n';
+    var html = '\n    <button id="floating-chat-button" class="floating-chat-button" onclick="toggleChatWidget()" aria-label="Open chat" aria-expanded="false" aria-controls="' + cfg.panelId + '">\n        ' + cfg.icon + '\n    </button>\n\n    <!-- Chat Panel -->\n    <div id="' + cfg.panelId + '" class="chat-widget-panel" role="dialog" aria-label="' + cfg.title + '" aria-hidden="true" inert>\n        <div class="chat-widget-header">\n            <div class="chat-header-title">\n                <span class="chat-icon">' + cfg.icon + '</span>\n                <span>' + cfg.title + '</span>\n            </div>\n            <div class="chat-header-actions">\n                ' + maximizeBtn + '<button class="chat-action-btn" onclick="toggleChatWidget()" aria-label="Close">\n                    \u2715\n                </button>\n            </div>\n        </div>\n        <div class="chat-widget-body">\n            <div id="chat-messages" class="chat-messages" aria-live="polite"></div>\n            <div class="chat-input-area">\n                <textarea id="chat-input" class="chat-input"\n                       placeholder="' + cfg.placeholder + '"\n                       aria-label="Chat input"></textarea>\n                <button class="send-button" onclick="sendChatMessage()" aria-label="Send message">\n                    \u27a4\n                </button>\n            </div>\n        </div>\n    </div>\n';
 
     document.body.insertAdjacentHTML('beforeend', html);
 
@@ -59,10 +59,19 @@ function initChatWidget(config) {
         var button = document.getElementById('floating-chat-button');
         if (panel.classList.contains('active')) {
             panel.classList.remove('active');
+            panel.setAttribute('aria-hidden', 'true');
+            panel.setAttribute('inert', '');
             button.classList.remove('hidden');
+            button.setAttribute('aria-expanded', 'false');
+            button.focus();
         } else {
             panel.classList.add('active');
+            panel.setAttribute('aria-hidden', 'false');
+            panel.removeAttribute('inert');
             button.classList.add('hidden');
+            button.setAttribute('aria-expanded', 'true');
+            var input = panel.querySelector('.chat-input');
+            if (input) input.focus();
         }
     };
 

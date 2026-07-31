@@ -516,7 +516,7 @@ DISCERN-Protocol/
 
 ✨ **Complete LIBERATE Ecosystem** - Now equals REPAIR in depth and support
 - Self-Commitment Contract with digital signatures
-- Progress Tracker with 24 milestones across 6 phases
+- Progress Tracker with 24 milestones across 6 recovery stages aligned to the 8-phase LIBERATE framework
 - Visual Framework showing liberation journey map
 
 ✨ **Digital Signature Pads Everywhere**

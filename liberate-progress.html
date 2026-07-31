@@ -10,6 +10,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="theme-system.js"></script>
+    <script src="nav-component.js"></script>
     <style>
         :root {
             /* Light Theme Variables */
@@ -423,7 +424,7 @@
                 <div class="value" id="daysSince">0</div>
             </div>
             <div class="stat-card">
-                <h3>Current Phase</h3>
+                <h3>Current Recovery Stage</h3>
                 <div class="value" style="font-size: 1.5rem;" id="currentPhase">Recognition</div>
             </div>
             <div class="stat-card">
@@ -950,6 +951,7 @@ https://chatgpt.com/g/g-685f7ec1cae4819183b514fdeff27b43-discern-bot-relationshi
         });
     </script>
 
+    <script>initNav({ type: 'liberate', activePage: 'liberate-progress' });</script>
     <script src="chat-widget.js"></script>
     <script>
     initChatWidget({

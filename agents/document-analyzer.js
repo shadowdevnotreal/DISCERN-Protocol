@@ -511,7 +511,7 @@ class DocumentAnalyzer {
                 category: 'completeness',
                 priority: 'medium',
                 suggestion: `Address missing REPAIR phases: ${analysis.scores.completeness.missing.join(', ')}`,
-                example: 'Ensure your document covers all six phases of the REPAIR Protocol'
+                example: 'Ensure your document covers all eight phases of the REPAIR Protocol'
             });
         }
 

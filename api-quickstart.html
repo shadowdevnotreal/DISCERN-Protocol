@@ -10,6 +10,7 @@
     
     <script src="theme-system.js"></script>
     <script src="nav-component.js"></script>
+    <script src="config/api-config.js"></script>
     <style>
 
         * {
@@ -714,6 +715,12 @@
                 };
 
                 localStorage.setItem('repairAPIConfig', JSON.stringify(config));
+
+                // Sync with the shared APIConfig instance used by repair.html
+                // (Groq-only; other providers are tutorial examples on this page)
+                if (window.repairAPIConfig && provider === 'groq') {
+                    window.repairAPIConfig.setModel(model);
+                }
 
                 showStatus('✅ Provider and model preferences saved. For security, the API key remains only in this field and is not persisted.', 'success');
             } catch (error) {

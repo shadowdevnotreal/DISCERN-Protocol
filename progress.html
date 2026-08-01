@@ -1502,6 +1502,8 @@
         let aiMode = false;
 
         // Contract data storage
+        const PHASES = ['ASSESSMENT', 'RECOGNIZE', 'EXAMINE', 'PREPARE', 'ARTICULATE', 'IMPLEMENT', 'RESTORE', 'CONTRACT'];
+
         let contractData = {
             startDate: null,
             phases: [],
@@ -1791,12 +1793,11 @@
 
         // Calculate phase completion
         function calculatePhaseCompletion(content) {
-            const phases = ['ASSESSMENT', 'RECOGNIZE', 'EXAMINE', 'PREPARE', 'ARTICULATE', 'IMPLEMENT', 'RESTORE', 'CONTRACT'];
-            contractData.phases = phases;
+            contractData.phases = PHASES;
             let completedPhases = 0;
             let currentPhase = -1;
 
-            phases.forEach((phase, index) => {
+            PHASES.forEach((phase, index) => {
                 const phaseRegex = new RegExp(`PHASE \\d+: ${phase}[\\s\\S]*?(?=PHASE|================|$)`);
                 const phaseMatch = content.match(phaseRegex);
                 
@@ -1824,7 +1825,7 @@
             });
 
             // Set current active phase
-            if (currentPhase < phases.length - 1 && currentPhase >= 0) {
+            if (currentPhase < PHASES.length - 1 && currentPhase >= 0) {
                 const activePhase = document.getElementById(`phase-${currentPhase + 1}`);
                 if (activePhase) {
                     const icon = activePhase.querySelector('.phase-icon');
@@ -1834,9 +1835,9 @@
             }
 
             // Update metrics
-            const overallProgress = Math.round((completedPhases / phases.length) * 100);
+            const overallProgress = Math.round((completedPhases / PHASES.length) * 100);
             document.getElementById('overallProgress').textContent = overallProgress + '%';
-            document.getElementById('phasesCompleted').textContent = completedPhases + '/' + phases.length;
+            document.getElementById('phasesCompleted').textContent = completedPhases + '/' + PHASES.length;
             
             contractData.completedPhases = completedPhases;
         }
@@ -2007,7 +2008,7 @@
 
         // Calculate performance scores based on progress
         function calculatePerformanceScores() {
-            const baseScore = contractData.completedPhases / 8 * 100;
+            const baseScore = contractData.completedPhases / PHASES.length * 100;
             const offsets = [8, 2, -4, 0, -7, 5, 3];
             
             return {
@@ -2037,7 +2038,7 @@
             const actionProgress = (completed / total) * 100;
             
             // Recalculate overall progress
-            const phaseProgress = contractData.completedPhases / 8 * 100;
+            const phaseProgress = contractData.completedPhases / PHASES.length * 100;
             const newProgress = Math.round((phaseProgress * 0.7) + (actionProgress * 0.3));
             document.getElementById('overallProgress').textContent = newProgress + '%';
             
@@ -2181,7 +2182,7 @@
             const progressReport = `ENHANCED REPAIR PROTOCOL PROGRESS REPORT
 Generated: ${date}
 
-CURRENT PHASE: ${['ASSESSMENT', 'RECOGNIZE', 'EXAMINE', 'PREPARE', 'ARTICULATE', 'IMPLEMENT', 'RESTORE', 'CONTRACT'][Math.min(contractData.completedPhases, 7)]}
+CURRENT PHASE: ${PHASES[Math.min(contractData.completedPhases, PHASES.length - 1)]}
 
 OVERALL PROGRESS: ${document.getElementById('overallProgress').textContent}
 Phases Completed: ${document.getElementById('phasesCompleted').textContent}

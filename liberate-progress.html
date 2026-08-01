@@ -842,7 +842,7 @@
                             ticks: { stepSize: 20, backdropColor: 'transparent' },
                             grid: { color: 'rgba(101, 113, 129, 0.24)' },
                             angleLines: { color: 'rgba(101, 113, 129, 0.24)' },
-                            pointLabels: { color: '#3f4e5f', font: { size: 12, weight: '600' } }
+                            pointLabels: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-secondary').trim() || '#3f4e5f', font: { size: 12, weight: '600' } }
                         }
                     },
                     plugins: {
@@ -934,6 +934,11 @@ https://chatgpt.com/g/g-685f7ec1cae4819183b514fdeff27b43-discern-bot-relationshi
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             updateUI();
+
+            // Re-render chart when theme changes so label colors stay accurate
+            document.addEventListener('discern-theme-change', () => {
+                updateChart();
+            });
 
             // Chatbot welcome message
             setTimeout(() => {

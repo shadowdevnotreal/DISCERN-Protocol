@@ -15,9 +15,11 @@ function toggleTheme() {
 
     // Update theme toggle button if it exists
     const themeText = document.getElementById('theme-text');
+    const themeIcon = document.getElementById('theme-icon');
     const themeToggle = document.getElementById('system-theme-toggle');
 
-    if (themeText) themeText.textContent = newTheme === 'dark' ? 'Light' : 'Dark';
+    if (themeText) themeText.textContent = newTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+    if (themeIcon) themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
     if (themeToggle) {
         themeToggle.setAttribute('aria-pressed', newTheme === 'dark' ? 'true' : 'false');
         themeToggle.setAttribute('aria-label', newTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
@@ -41,9 +43,11 @@ function initializeTheme() {
     }));
 
     const themeText = document.getElementById('theme-text');
+    const themeIcon = document.getElementById('theme-icon');
     const themeToggle = document.getElementById('system-theme-toggle');
 
-    if (themeText) themeText.textContent = savedTheme === 'dark' ? 'Light' : 'Dark';
+    if (themeText) themeText.textContent = savedTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+    if (themeIcon) themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
     if (themeToggle) {
         themeToggle.setAttribute('aria-pressed', savedTheme === 'dark' ? 'true' : 'false');
         themeToggle.setAttribute('aria-label', savedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');

@@ -135,7 +135,7 @@
                 : REPAIR_LINKS;
         var visibleKeys = CONTEXT_KEYS[activePage];
         var links = items.filter(function(item) {
-            return item.key !== 'home' && (!visibleKeys || visibleKeys.indexOf(item.key) !== -1);
+            return item.key !== 'home' && (!visibleKeys || visibleKeys.indexOf(item.key) !== -1 || item.key === activePage);
         }).map(function(item) {
             return buildLink(item, activePage);
         });

@@ -2194,13 +2194,13 @@ Severity Level: ${contractData.severity || 'Not specified'}
 Readiness Assessment: ${contractData.readiness || 'Not specified'}
 
 COMPLETED MILESTONES:
-${contractData.completedPhases >= 1 ? '✓ Initial Recognition (' + (contractData.startDate ? contractData.startDate.toLocaleDateString() : 'Date not specified') + ')' : '○ Initial Recognition (Pending)'}
-${contractData.completedPhases >= 2 ? '✓ Deep Examination (Completed)' : '○ Deep Examination (Pending)'}
-${contractData.completedPhases >= 3 ? '✓ Apology Preparation (Completed)' : '○ Apology Preparation (Pending)'}
-${contractData.completedPhases >= 4 ? '✓ Apology Delivery (Completed)' : '○ Apology Delivery (Pending)'}
-${contractData.completedPhases >= 5 ? '✓ Implementation Phase (Completed)' : '○ Implementation Phase (In Progress)'}
-${contractData.completedPhases >= 6 ? '✓ Restoration Phase (Completed)' : '○ Restoration Phase (Pending)'}
-${contractData.completedPhases >= 7 ? '✓ Trust Restoration (Completed)' : '○ Trust Restoration (Pending)'}
+${contractData.completedPhases >= 1 ? '✓ Assessment (' + (contractData.startDate ? contractData.startDate.toLocaleDateString() : 'Date not specified') + ')' : '○ Assessment (Pending)'}
+${contractData.completedPhases >= 2 ? '✓ Initial Recognition (Completed)' : '○ Initial Recognition (Pending)'}
+${contractData.completedPhases >= 3 ? '✓ Deep Examination (Completed)' : '○ Deep Examination (Pending)'}
+${contractData.completedPhases >= 4 ? '✓ Apology Preparation (Completed)' : '○ Apology Preparation (Pending)'}
+${contractData.completedPhases >= 5 ? '✓ Apology Delivery (Completed)' : '○ Apology Delivery (Pending)'}
+${contractData.completedPhases >= 6 ? '✓ Implementation Phase (Completed)' : '○ Implementation Phase (In Progress)'}
+${contractData.completedPhases >= 7 ? '✓ Restoration Phase (Completed)' : '○ Restoration Phase (Pending)'}
 ${contractData.completedPhases >= 8 ? '✓ Long-term Contract (Completed)' : '○ Long-term Contract (Pending)'}
 
 COMPLETED ACTIONS:

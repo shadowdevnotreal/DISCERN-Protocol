@@ -561,8 +561,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            min-width: 800px;
-            gap: 1rem;
+            min-width: 0;
+            gap: 0.35rem;
         }
 
         .step {
@@ -570,7 +570,8 @@
             align-items: center;
             flex-direction: column;
             text-align: center;
-            min-width: 100px;
+            min-width: 0;
+            flex: 0 1 92px;
             cursor: pointer;
         }
 
@@ -613,10 +614,11 @@
         }
         
         .step-connector {
-        flex: 1;
-        height: 3px;
-        background: var(--border-color);
-        margin: 0 1rem;
+            flex: 1;
+            min-width: 8px;
+            height: 3px;
+            background: var(--border-color);
+            margin: 0 0.2rem;
         border-radius: 2px;
         position: relative;
         top: -15px;
@@ -987,11 +989,12 @@
             }
 
             .stepper-container {
-                min-width: 600px;
+                min-width: 720px;
+                gap: 0.25rem;
             }
 
             .step {
-                min-width: 80px;
+                flex-basis: 76px;
             }
 
             .step-circle {

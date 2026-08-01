@@ -36,9 +36,8 @@
     ];
 
     var DISCERN_LINKS = [
-        { key: 'home',       href: 'index.html',             emoji: '🏠', label: 'Home' },
-        { key: 'assessment', href: 'assessment.html',        emoji: '🧭', label: 'Assessment' },
-        { key: 'protocols',  href: 'protocol-selector.html', emoji: '🔀', label: 'Choose Protocol' },
+        { key: 'home',       href: 'index.html',      emoji: '', label: 'Home' },
+        { key: 'assessment', href: 'assessment.html', emoji: '', label: 'Assessment' },
     ];
 
     // CSS is provided by desktop-enhancements.css — no runtime injection needed.
@@ -81,7 +80,11 @@
         var links = DISCERN_LINKS.map(function(item) {
             return '        ' + buildLink(item, activePage);
         });
-        return '<nav>\n    <div class="nav-container">\n' + links.join('\n') + '\n    </div>\n</nav>';
+        return '<nav class="discern-nav" aria-label="Primary navigation">\n'
+             + '    <div class="nav-container">\n'
+             + '        <a class="nav-brand" href="index.html" aria-label="DISCERN home">DISCERN</a>\n'
+             + '        <div class="nav-links">\n' + links.join('\n') + '\n        </div>\n'
+             + '    </div>\n</nav>';
     }
 
     // ── Public API ────────────────────────────────────────────────────────────

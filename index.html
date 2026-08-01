@@ -3,607 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DISCERN Protocol - Choose Your Path: REPAIR or LIBERATE</title>
-
-    <!-- Desktop Enhancement Framework -->
+    <title>DISCERN Protocol — Choose the Safest Next Step</title>
     <link rel="stylesheet" href="desktop-enhancements.css">
     <script src="theme-system.js"></script>
     <script src="nav-component.js"></script>
-
     <style>
         :root {
-            /* Light Theme Variables */
-
-            /* Protocol Colors */
-            --repair-color: #667eea;
-            --repair-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --liberate-color: #f97316;
-            --liberate-gradient: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+            --discern-ink: #10213f;
+            --discern-muted: #52627a;
+            --discern-line: #d8e0ec;
+            --discern-surface: rgba(255, 255, 255, 0.94);
+            --repair: #4b35b8;
+            --repair-soft: #f7f5ff;
+            --liberate: #db3c20;
+            --liberate-soft: #fff8f5;
         }
 
-* {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: var(--bg-primary);
+            margin: 0;
             min-height: 100vh;
-            padding: 20px;
-            color: var(--text-primary);
+            padding: 0;
+            background: #f8fafc;
+            color: var(--discern-ink);
+            font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
 
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1100;
-            background: var(--bg-glass);
-            backdrop-filter: var(--backdrop-blur);
-            border: 1px solid var(--border-color);
-            border-radius: 50px;
-            padding: 12px 20px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px var(--shadow-color);
-            width: auto;
-            max-width: fit-content;
-        }
-
-        .theme-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--shadow-hover);
-        }
-
-        .theme-icon {
-            font-size: 1.2rem;
-        }
-
-        .container {
-            max-width: 1200px;
+        .discern-home {
+            width: min(100% - 40px, 1060px);
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: clamp(52px, 7vh, 82px) 0 40px;
         }
 
         .hero {
+            max-width: 820px;
+            margin: 0 auto 42px;
             text-align: center;
-            margin-bottom: 60px;
-            animation: fadeIn 0.8s ease-out;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero-title {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #f97316 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1rem, 3vw, 1.3rem);
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
-
-        .hero-description {
-            font-size: clamp(0.95rem, 2vw, 1.05rem);
-            color: var(--text-tertiary);
-            max-width: 800px;
-            margin: 0 auto 40px;
-            line-height: 1.6;
-            padding: 0 10px;
-        }
-
-        .paths-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .path-card {
-            background: var(--bg-glass);
-            backdrop-filter: var(--backdrop-blur);
-            border-radius: 24px;
-            padding: 40px;
-            border: 2px solid var(--border-color);
-            box-shadow: 0 20px 60px var(--shadow-color);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .path-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: var(--path-gradient);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .path-card:hover::before {
-            opacity: 1;
-        }
-
-        .path-card.repair {
-            --path-gradient: var(--repair-gradient);
-        }
-
-        .path-card.liberate {
-            --path-gradient: var(--liberate-gradient);
-        }
-
-        .path-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 80px var(--shadow-hover);
-            border-color: var(--path-color);
-        }
-
-        .path-card.repair {
-            --path-color: var(--repair-color);
-        }
-
-        .path-card.liberate {
-            --path-color: var(--liberate-color);
-        }
-
-        .path-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .path-title {
-            font-size: 2rem;
+        .hero h1 {
+            margin: 0;
+            color: var(--discern-ink);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(2.5rem, 4.5vw, 4.3rem);
             font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--text-primary);
+            letter-spacing: -0.045em;
+            line-height: 1.02;
         }
 
-        .path-tagline {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            font-style: italic;
-        }
-
-        .path-description {
-            font-size: 1rem;
-            color: var(--text-tertiary);
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
-        .path-features {
-            list-style: none;
-            margin-bottom: 30px;
-        }
-
-        .path-features li {
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .path-features li:last-child {
-            border-bottom: none;
-        }
-
-        .feature-icon {
-            font-size: 1.2rem;
-        }
-
-        .path-button {
-            width: 100%;
-            padding: 18px 32px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .path-button.repair {
-            background: var(--repair-gradient);
-        }
-
-        .path-button.liberate {
-            background: var(--liberate-gradient);
-        }
-
-        .path-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .divider {
-            text-align: center;
-            margin: 60px 0;
-            position: relative;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 40%;
-            height: 1px;
-            background: var(--border-color);
-        }
-
-        .divider::before {
-            left: 0;
-        }
-
-        .divider::after {
-            right: 0;
-        }
-
-        .divider-text {
-            background: var(--bg-glass);
-            backdrop-filter: var(--backdrop-blur);
-            padding: 12px 30px;
-            border-radius: 50px;
-            border: 1px solid var(--border-color);
-            font-weight: 600;
-            color: var(--text-secondary);
-            display: inline-block;
-        }
-
-        .assessment-section {
-            background: var(--bg-glass);
-            backdrop-filter: var(--backdrop-blur);
-            border-radius: 24px;
-            padding: clamp(25px, 5vw, 50px);
-            text-align: center;
-            border: 2px solid var(--border-color);
-            box-shadow: 0 20px 60px var(--shadow-color);
-            margin-bottom: 60px;
-        }
-
-        .assessment-title {
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-        }
-
-        .assessment-description {
-            font-size: clamp(0.95rem, 2.5vw, 1.15rem);
-            color: var(--text-secondary);
-            margin-bottom: 35px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 0 10px;
+        .hero p {
+            max-width: 650px;
+            margin: 22px auto 0;
+            color: var(--discern-muted);
+            font-size: clamp(1rem, 1.4vw, 1.18rem);
+            line-height: 1.55;
         }
 
         .assessment-button {
-            padding: clamp(15px 30px, 3vw, 20px 50px);
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 52px;
+            margin-top: 28px;
+            padding: 0 28px;
+            border: 0;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #5140c4, #3f2e9f);
+            box-shadow: 0 8px 20px rgba(64, 46, 159, 0.2);
+            color: #fff;
+            font: 700 1rem/1 Inter, ui-sans-serif, sans-serif;
+            text-decoration: none;
+            transition: transform 180ms ease, box-shadow 180ms ease;
         }
 
-        .assessment-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.5);
+        .assessment-button:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(64, 46, 159, 0.26); }
+
+        .assessment-button svg,
+        .path-link svg,
+        .safety-note svg { width: 20px; height: 20px; flex: 0 0 auto; }
+
+        .path-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--discern-line);
+            border-radius: 16px;
+            background: var(--discern-surface);
+            box-shadow: 0 16px 44px rgba(16, 33, 63, 0.08);
         }
 
-        .comparison-table {
-            background: var(--bg-glass);
-            backdrop-filter: var(--backdrop-blur);
-            border-radius: 24px;
-            padding: 40px;
-            border: 2px solid var(--border-color);
-            box-shadow: 0 20px 60px var(--shadow-color);
-            overflow-x: auto;
+        .path-option {
+            display: grid;
+            grid-template-columns: 56px 1fr;
+            gap: 22px;
+            min-width: 0;
+            padding: 38px;
         }
 
-        .comparison-table table {
-            width: 100%;
-            border-collapse: collapse;
+        .path-option + .path-option { border-left: 1px solid var(--discern-line); }
+        .path-option.repair { background: linear-gradient(135deg, var(--repair-soft), #fff 72%); }
+        .path-option.liberate { background: linear-gradient(135deg, #fff, var(--liberate-soft)); }
+
+        .path-icon {
+            display: grid;
+            width: 56px;
+            height: 56px;
+            place-items: center;
+            border: 1px solid currentColor;
+            border-radius: 50%;
         }
 
-        .comparison-table th,
-        .comparison-table td {
-            padding: 20px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
+        .path-icon svg { width: 29px; height: 29px; }
+        .repair .path-icon, .repair .path-name, .repair .path-link { color: var(--repair); }
+        .liberate .path-icon, .liberate .path-name, .liberate .path-link { color: var(--liberate); }
+
+        .path-name {
+            margin: 3px 0 7px;
+            font-size: 1.45rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
         }
 
-        .comparison-table th {
-            font-weight: 700;
-            color: var(--text-primary);
-            font-size: 1.1rem;
+        .path-subtitle { margin: 0; color: var(--discern-ink); font-size: 1.03rem; font-weight: 650; }
+        .path-signals { margin: 16px 0 22px; color: var(--discern-muted); font-size: 0.93rem; line-height: 1.5; }
+
+        .path-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 44px;
+            padding: 0 18px;
+            border: 1px solid currentColor;
+            border-radius: 9px;
+            background: rgba(255, 255, 255, 0.72);
+            font-size: 0.95rem;
+            font-weight: 750;
+            text-decoration: none;
+            transition: color 180ms ease, background 180ms ease, transform 180ms ease;
         }
 
-        .comparison-table td {
-            color: var(--text-secondary);
-        }
+        .path-link:hover { color: #fff; transform: translateY(-1px); }
+        .repair .path-link:hover { background: var(--repair); }
+        .liberate .path-link:hover { background: var(--liberate); }
 
-        .comparison-table .repair-col {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-        }
-
-        .comparison-table .liberate-col {
-            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-
-            .container {
-                padding: 20px 10px;
-            }
-
-            .paths-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .path-card {
-                padding: 30px 20px;
-            }
-
-            .comparison-table {
-                padding: 20px 15px;
-            }
-
-            .comparison-table th,
-            .comparison-table td {
-                padding: 12px 8px;
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-
-            .theme-toggle {
-                top: 10px;
-                left: 10px;
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-
-            .path-card {
-                padding: 25px 15px;
-            }
-
-            .comparison-table th,
-            .comparison-table td {
-                padding: 10px 6px;
-                font-size: 0.85rem;
-            }
-        }
-
-        .emoji {
-            font-style: normal;
-        }
-
-        .chat-action-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            cursor: pointer;
+        .safety-note {
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
-            font-size: 1.2rem;
+            gap: 12px;
+            width: fit-content;
+            max-width: 100%;
+            margin: 28px auto 0;
+            padding: 12px 20px;
+            border: 1px solid var(--discern-line);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            color: var(--discern-muted);
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
 
-        .chat-action-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+        .safety-note svg { color: var(--discern-ink); }
+
+        .assessment-button:focus-visible,
+        .path-link:focus-visible {
+            outline: 3px solid rgba(75, 53, 184, 0.3);
+            outline-offset: 3px;
+        }
+
+        [data-theme="dark"] body { background: #0f172a; }
+        [data-theme="dark"] .discern-home { --discern-ink: #f8fafc; --discern-muted: #cbd5e1; --discern-line: #334155; --discern-surface: #172033; --repair-soft: #1d1b38; --liberate-soft: #2b1c1b; }
+        [data-theme="dark"] .path-link, [data-theme="dark"] .safety-note { background: rgba(15, 23, 42, 0.55); }
+
+        @media (max-width: 760px) {
+            .discern-home { width: min(100% - 28px, 560px); padding-top: 42px; }
+            .hero { margin-bottom: 30px; }
+            .hero h1 { font-size: clamp(2.35rem, 12vw, 3.3rem); }
+            .hero p { margin-top: 16px; }
+            .assessment-button { width: 100%; margin-top: 24px; }
+            .path-selector { grid-template-columns: 1fr; }
+            .path-option { grid-template-columns: 46px 1fr; gap: 16px; padding: 25px 22px; }
+            .path-option + .path-option { border-top: 1px solid var(--discern-line); border-left: 0; }
+            .path-icon { width: 46px; height: 46px; }
+            .path-icon svg { width: 24px; height: 24px; }
+            .path-name { margin-top: 0; font-size: 1.25rem; }
+            .path-link { width: 100%; }
+            .safety-note { align-items: flex-start; margin-top: 20px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
         }
     </style>
 </head>
 <body>
-    <!-- Theme Toggle -->
-    <div class="theme-toggle" onclick="toggleTheme()">
-        <span class="theme-icon" id="theme-icon">🌙</span>
-        <span id="theme-text">Dark Mode</span>
-    </div>
+    <main class="discern-home">
+        <header class="hero">
+            <h1>Choose the safest next step.</h1>
+            <p>Use the assessment when you’re unsure, or select a pathway if your situation is already clear.</p>
+            <a class="assessment-button" href="assessment.html">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5h6M9 9h6M9 13h4"/><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3V2h6v1"/></svg>
+                Take the 2-minute assessment
+            </a>
+        </header>
 
-    <div class="container">
-        <!-- Hero Section -->
-        <div class="hero">
-            <h1 class="hero-title">DISCERN Protocol</h1>
-            <p class="hero-subtitle">Diagnostic Integration for Strategic Choice in Relationship Navigation</p>
-            <p class="hero-description">
-                Not all relationships should be saved. DISCERN helps you determine whether your relationship
-                may warrant reconciliation (REPAIR) or safe separation (LIBERATE) through evidence-informed
-                assessment across 4 diagnostic domains: Safety, Accountability, Pattern, and Impact.
-            </p>
-        </div>
+        <section class="path-selector" aria-label="Choose a DISCERN pathway">
+            <article class="path-option repair">
+                <div class="path-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 12.5 5 9a3 3 0 0 1 4.2-4.2l2.1 2.1M15.5 12.5 19 9a3 3 0 0 0-4.2-4.2L7 12.6a2 2 0 0 0 2.8 2.8l4.7-4.7"/><path d="m10 15 2 2a2 2 0 0 0 2.8-2.8l-.3-.3M8 16.5l1.2 1.2a2 2 0 0 0 2.8 0"/></svg>
+                </div>
+                <div>
+                    <h2 class="path-name">REPAIR</h2>
+                    <p class="path-subtitle">Rebuild with shared accountability</p>
+                    <p class="path-signals">Safe &nbsp;•&nbsp; Mutual effort &nbsp;•&nbsp; Repairable harm</p>
+                    <a class="path-link" href="repair.html">Explore REPAIR <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                </div>
+            </article>
 
-        <!-- Path Selection Cards -->
-        <div class="paths-container">
-            <!-- REPAIR Protocol Card -->
-            <div class="path-card repair" onclick="window.location.href='repair.html'">
-                <span class="path-icon">🔧</span>
-                <h2 class="path-title">REPAIR Protocol</h2>
-                <p class="path-tagline">"Restore & Rebuild Together"</p>
-                <p class="path-description">
-                    A comprehensive 8-phase framework for authentic reconciliation and relationship restoration.
-                    Designed for relationships worth saving, where both parties are committed to healing.
-                </p>
-                <ul class="path-features">
-                    <li><span class="feature-icon">✅</span> Both parties want to reconcile</li>
-                    <li><span class="feature-icon">✅</span> Harm was unintentional or mistake-based</li>
-                    <li><span class="feature-icon">✅</span> No pattern of abuse present</li>
-                    <li><span class="feature-icon">✅</span> Safety is not compromised</li>
-                    <li><span class="feature-icon">✅</span> Trust can realistically be rebuilt</li>
-                </ul>
-                <button class="path-button repair">
-                    <span class="emoji">🔧</span> Start REPAIR Journey
-                </button>
-            </div>
+            <article class="path-option liberate">
+                <div class="path-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 19 6v5c0 4.6-2.8 8.1-7 10-4.2-1.9-7-5.4-7-10V6l7-3Z"/><path d="M12 7v10"/></svg>
+                </div>
+                <div>
+                    <h2 class="path-name">LIBERATE</h2>
+                    <p class="path-subtitle">Protect yourself and move forward</p>
+                    <p class="path-signals">Unsafe &nbsp;•&nbsp; Repeated harm &nbsp;•&nbsp; Boundaries ignored</p>
+                    <a class="path-link" href="liberate.html">Explore LIBERATE <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                </div>
+            </article>
+        </section>
 
-            <!-- LIBERATE Protocol Card -->
-            <div class="path-card liberate" onclick="window.location.href='liberate.html'">
-                <span class="path-icon">🚀</span>
-                <h2 class="path-title">LIBERATE Protocol</h2>
-                <p class="path-tagline">"Break Free & Heal Independently"</p>
-                <p class="path-description">
-                    An 8-phase framework for safely exiting harmful relationships and healing independently.
-                    Designed for situations where your safety, boundaries, and wellbeing must come first.
-                </p>
-                <ul class="path-features">
-                    <li><span class="feature-icon">⚠️</span> Domestic violence or abuse present</li>
-                    <li><span class="feature-icon">⚠️</span> Narcissistic or toxic patterns</li>
-                    <li><span class="feature-icon">⚠️</span> Repeated boundary violations</li>
-                    <li><span class="feature-icon">⚠️</span> Safety is compromised</li>
-                    <li><span class="feature-icon">⚠️</span> One party refuses accountability</li>
-                </ul>
-                <button class="path-button liberate">
-                    <span class="emoji">🚀</span> Start LIBERATE Journey
-                </button>
-            </div>
-        </div>
-
-        <!-- Divider -->
-        <div class="divider">
-            <span class="divider-text">Not Sure Which Path?</span>
-        </div>
-
-        <!-- Assessment Section -->
-        <div class="assessment-section">
-            <h2 class="assessment-title"><span class="emoji">🔍</span> Take the DISCERN Assessment</h2>
-            <p class="assessment-description">
-                Complete our evidence-informed 4-domain reflection to receive a personalized pathway suggestion.
-                We assess <strong>Safety</strong> (violence, threats), <strong>Accountability</strong> (responsibility vs. blame),
-                <strong>Pattern</strong> (Gottman's Four Horsemen), and <strong>Impact</strong> (mental health, trauma).
-            </p>
-            <button class="assessment-button" onclick="window.location.href='assessment.html'">
-                <span class="emoji">📋</span> Take Free Assessment (2 minutes)
-            </button>
-        </div>
-
-        <!-- Comparison Table -->
-        <div class="comparison-table">
-            <h2 style="margin-bottom: 30px; text-align: center; color: var(--text-primary);">
-                Side-by-Side Comparison
-            </h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Aspect</th>
-                        <th class="repair-col"><span class="emoji">🔧</span> REPAIR Protocol</th>
-                        <th class="liberate-col"><span class="emoji">🚀</span> LIBERATE Protocol</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Philosophy</strong></td>
-                        <td class="repair-col">Relationships can be restored</td>
-                        <td class="liberate-col">Some relationships should end</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Focus</strong></td>
-                        <td class="repair-col">Reconciliation & healing together</td>
-                        <td class="liberate-col">Personal safety & healing independently</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Participation</strong></td>
-                        <td class="repair-col">Both parties engaged</td>
-                        <td class="liberate-col">Independent process</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Timeline</strong></td>
-                        <td class="repair-col">Mutual accountability</td>
-                        <td class="liberate-col">Self-directed recovery</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Outcome</strong></td>
-                        <td class="repair-col">Together & healed</td>
-                        <td class="liberate-col">Apart & empowered</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Success Metric</strong></td>
-                        <td class="repair-col">Restored relationship</td>
-                        <td class="liberate-col">Individual empowerment & safety</td>
-                    </tr>
-                    <tr>
-                        <td><strong>When to Use</strong></td>
-                        <td class="repair-col">Repairable conflicts, mistakes</td>
-                        <td class="liberate-col">Abuse, toxicity, irreparable harm</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Phases</strong></td>
-                        <td class="repair-col">8 phases: Assessment → Contract</td>
-                        <td class="liberate-col">8 phases: LIMIT → EVOLVE</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <script>
-
-        // Chatbot Functions
-        // Initialize chatbot with welcome message
-        // Enter key to send message    </script>
-
+        <p class="safety-note">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 19 6v5c0 4.6-2.8 8.1-7 10-4.2-1.9-7-5.4-7-10V6l7-3Z"/></svg>
+            <span>If you are in immediate danger, contact local emergency services.</span>
+        </p>
+    </main>
 
     <script>initNav({ type: 'discern', activePage: 'home' });</script>
     <script src="chat-widget.js"></script>
     <script>
     initChatWidget({
-        panelId:        'discern-chat-panel',
-        icon:           '🧭',
-        title:          'DISCERN Guide',
-        gradient:       'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
-        hasMaximize:    true,
-        placeholder:    'Ask about REPAIR, LIBERATE, or how to get started...',
-        welcomeMessage: 'Welcome to the DISCERN Protocol! I\'m your DISCERN Guide. I can help you reflect on REPAIR (relationship restoration) and LIBERATE (healing independently), understand the assessment process, and navigate our evidence-informed frameworks.',
-        response:       'Thank you for reaching out! I\'m here to help you navigate the DISCERN Protocol. Whether you\'re exploring REPAIR for relationship restoration or LIBERATE for healing independently, I can guide you through your options.',
+        panelId: 'discern-chat-panel',
+        icon: '🧭',
+        title: 'DISCERN Guide',
+        gradient: 'linear-gradient(135deg, #3b82f6 0%, #4b35b8 100%)',
+        hasMaximize: true,
+        placeholder: 'Ask about REPAIR, LIBERATE, or how to get started...',
+        welcomeMessage: 'Welcome to DISCERN. I can help you understand the assessment, REPAIR, and LIBERATE pathways.',
+        response: 'I can help you compare the DISCERN pathways and decide where to begin.'
     });
     </script>
 </body>

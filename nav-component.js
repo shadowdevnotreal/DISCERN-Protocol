@@ -121,8 +121,9 @@
         var tag = isActive ? 'span' : 'a';
         var hrefAttr = isActive ? '' : (' href="' + item.href + '"');
         var activeClass = isActive ? ' active' : '';
+        var ariaCurrent = isActive ? ' aria-current="page"' : '';
         var icon = item.emoji ? '<span aria-hidden="true">' + item.emoji + '</span>' : '';
-        return '<' + tag + hrefAttr + ' class="nav-link' + activeClass + '">'
+        return '<' + tag + hrefAttr + ariaCurrent + ' class="nav-link' + activeClass + '">'
              + icon + '<span>' + item.label + '</span>'
              + '</' + tag + '>';
     }

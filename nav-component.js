@@ -121,8 +121,9 @@
         var tag = isActive ? 'span' : 'a';
         var hrefAttr = isActive ? '' : (' href="' + item.href + '"');
         var activeClass = isActive ? ' active' : '';
+        var ariaCurrent = isActive ? ' aria-current="page"' : '';
         var icon = item.emoji ? '<span aria-hidden="true">' + item.emoji + '</span>' : '';
-        return '<' + tag + hrefAttr + ' class="nav-link' + activeClass + '">'
+        return '<' + tag + hrefAttr + ariaCurrent + ' class="nav-link' + activeClass + '">'
              + icon + '<span>' + item.label + '</span>'
              + '</' + tag + '>';
     }
@@ -135,7 +136,7 @@
                 : REPAIR_LINKS;
         var visibleKeys = CONTEXT_KEYS[activePage];
         var links = items.filter(function(item) {
-            return item.key !== 'home' && (!visibleKeys || visibleKeys.indexOf(item.key) !== -1);
+            return item.key !== 'home' && (!visibleKeys || visibleKeys.indexOf(item.key) !== -1 || item.key === activePage);
         }).map(function(item) {
             return buildLink(item, activePage);
         });

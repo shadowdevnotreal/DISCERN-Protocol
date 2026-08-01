@@ -1502,6 +1502,8 @@
         let aiMode = false;
 
         // Contract data storage
+        const PHASES = ['ASSESSMENT', 'RECOGNIZE', 'EXAMINE', 'PREPARE', 'ARTICULATE', 'IMPLEMENT', 'RESTORE', 'CONTRACT'];
+
         let contractData = {
             startDate: null,
             phases: [],
@@ -1791,11 +1793,10 @@
 
         // Calculate phase completion
         function calculatePhaseCompletion(content) {
-            const phases = ['ASSESSMENT', 'RECOGNIZE', 'EXAMINE', 'PREPARE', 'ARTICULATE', 'IMPLEMENT', 'RESTORE', 'CONTRACT'];
             let completedPhases = 0;
             let currentPhase = -1;
 
-            phases.forEach((phase, index) => {
+            PHASES.forEach((phase, index) => {
                 const phaseRegex = new RegExp(`PHASE \\d+: ${phase}[\\s\\S]*?(?=PHASE|================|$)`);
                 const phaseMatch = content.match(phaseRegex);
                 
@@ -1823,7 +1824,7 @@
             });
 
             // Set current active phase
-            if (currentPhase < phases.length - 1 && currentPhase >= 0) {
+            if (currentPhase < PHASES.length - 1 && currentPhase >= 0) {
                 const activePhase = document.getElementById(`phase-${currentPhase + 1}`);
                 if (activePhase) {
                     const icon = activePhase.querySelector('.phase-icon');
@@ -1833,9 +1834,9 @@
             }
 
             // Update metrics
-            const overallProgress = Math.round((completedPhases / phases.length) * 100);
+            const overallProgress = Math.round((completedPhases / PHASES.length) * 100);
             document.getElementById('overallProgress').textContent = overallProgress + '%';
-            document.getElementById('phasesCompleted').textContent = completedPhases + '/' + phases.length;
+            document.getElementById('phasesCompleted').textContent = completedPhases + '/' + PHASES.length;
             
             contractData.completedPhases = completedPhases;
         }
@@ -1888,7 +1889,7 @@
             
             for (let i = 1; i <= Math.min(weeks, 4); i++) {
                 labels.push(`Week ${i}`);
-                progressData.push(Math.min(i * 20, contractData.completedPhases / 8 * 100));
+                progressData.push(Math.min(i * 25, contractData.completedPhases / PHASES.length * 100));
                 trustData.push(Math.min(i * 18, parseFloat(document.getElementById('trustScore').textContent) * 10));
             }
             
@@ -2002,7 +2003,7 @@
 
         // Calculate performance scores based on progress
         function calculatePerformanceScores() {
-            const baseScore = contractData.completedPhases / 8 * 100;
+            const baseScore = contractData.completedPhases / PHASES.length * 100;
             const offsets = [8, 2, -4, 0, -7, 5, 3];
             
             return {
@@ -2032,7 +2033,7 @@
             const actionProgress = (completed / total) * 100;
             
             // Recalculate overall progress
-            const phaseProgress = contractData.completedPhases / 8 * 100;
+            const phaseProgress = contractData.completedPhases / PHASES.length * 100;
             const newProgress = Math.round((phaseProgress * 0.7) + (actionProgress * 0.3));
             document.getElementById('overallProgress').textContent = newProgress + '%';
             
@@ -2176,7 +2177,7 @@
             const progressReport = `ENHANCED REPAIR PROTOCOL PROGRESS REPORT
 Generated: ${date}
 
-CURRENT PHASE: ${['ASSESSMENT', 'RECOGNIZE', 'EXAMINE', 'PREPARE', 'ARTICULATE', 'IMPLEMENT', 'RESTORE', 'CONTRACT'][Math.min(contractData.completedPhases, 7)]}
+CURRENT PHASE: ${PHASES[Math.min(contractData.completedPhases, PHASES.length - 1)]}
 
 OVERALL PROGRESS: ${document.getElementById('overallProgress').textContent}
 Phases Completed: ${document.getElementById('phasesCompleted').textContent}
@@ -2189,13 +2190,13 @@ Severity Level: ${contractData.severity || 'Not specified'}
 Readiness Assessment: ${contractData.readiness || 'Not specified'}
 
 COMPLETED MILESTONES:
-${contractData.completedPhases >= 1 ? '✓ Initial Recognition (' + (contractData.startDate ? contractData.startDate.toLocaleDateString() : 'Date not specified') + ')' : '○ Initial Recognition (Pending)'}
-${contractData.completedPhases >= 2 ? '✓ Deep Examination (Completed)' : '○ Deep Examination (Pending)'}
-${contractData.completedPhases >= 3 ? '✓ Apology Preparation (Completed)' : '○ Apology Preparation (Pending)'}
-${contractData.completedPhases >= 4 ? '✓ Apology Delivery (Completed)' : '○ Apology Delivery (Pending)'}
-${contractData.completedPhases >= 5 ? '✓ Implementation Phase (Completed)' : '○ Implementation Phase (In Progress)'}
-${contractData.completedPhases >= 6 ? '✓ Restoration Phase (Completed)' : '○ Restoration Phase (Pending)'}
-${contractData.completedPhases >= 7 ? '✓ Trust Restoration (Completed)' : '○ Trust Restoration (Pending)'}
+${contractData.completedPhases >= 1 ? '✓ Assessment (' + (contractData.startDate ? contractData.startDate.toLocaleDateString() : 'Date not specified') + ')' : '○ Assessment (Pending)'}
+${contractData.completedPhases >= 2 ? '✓ Initial Recognition (Completed)' : '○ Initial Recognition (Pending)'}
+${contractData.completedPhases >= 3 ? '✓ Deep Examination (Completed)' : '○ Deep Examination (Pending)'}
+${contractData.completedPhases >= 4 ? '✓ Apology Preparation (Completed)' : '○ Apology Preparation (Pending)'}
+${contractData.completedPhases >= 5 ? '✓ Apology Delivery (Completed)' : '○ Apology Delivery (Pending)'}
+${contractData.completedPhases >= 6 ? '✓ Implementation Phase (Completed)' : '○ Implementation Phase (In Progress)'}
+${contractData.completedPhases >= 7 ? '✓ Restoration Phase (Completed)' : '○ Restoration Phase (Pending)'}
 ${contractData.completedPhases >= 8 ? '✓ Long-term Contract (Completed)' : '○ Long-term Contract (Pending)'}
 
 COMPLETED ACTIONS:

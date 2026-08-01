@@ -9,19 +9,18 @@ function toggleTheme() {
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
     document.documentElement.setAttribute('data-theme', newTheme);
+    document.dispatchEvent(new CustomEvent('discern-theme-change', {
+        detail: { theme: newTheme }
+    }));
 
     // Update theme toggle button if it exists
-    const themeIcon = document.getElementById('theme-icon');
     const themeText = document.getElementById('theme-text');
+    const themeToggle = document.getElementById('system-theme-toggle');
 
-    if (themeIcon && themeText) {
-        if (newTheme === 'dark') {
-            themeIcon.textContent = '☀️';
-            themeText.textContent = 'Light Mode';
-        } else {
-            themeIcon.textContent = '🌙';
-            themeText.textContent = 'Dark Mode';
-        }
+    if (themeText) themeText.textContent = newTheme === 'dark' ? 'Light' : 'Dark';
+    if (themeToggle) {
+        themeToggle.setAttribute('aria-pressed', newTheme === 'dark' ? 'true' : 'false');
+        themeToggle.setAttribute('aria-label', newTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     }
 
     // Store preference
@@ -37,18 +36,17 @@ function toggleTheme() {
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
+    document.dispatchEvent(new CustomEvent('discern-theme-change', {
+        detail: { theme: savedTheme }
+    }));
 
-    const themeIcon = document.getElementById('theme-icon');
     const themeText = document.getElementById('theme-text');
+    const themeToggle = document.getElementById('system-theme-toggle');
 
-    if (themeIcon && themeText) {
-        if (savedTheme === 'dark') {
-            themeIcon.textContent = '☀️';
-            themeText.textContent = 'Light Mode';
-        } else {
-            themeIcon.textContent = '🌙';
-            themeText.textContent = 'Dark Mode';
-        }
+    if (themeText) themeText.textContent = savedTheme === 'dark' ? 'Light' : 'Dark';
+    if (themeToggle) {
+        themeToggle.setAttribute('aria-pressed', savedTheme === 'dark' ? 'true' : 'false');
+        themeToggle.setAttribute('aria-label', savedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     }
 
     // Apply theme-aware inline style fixes
@@ -65,6 +63,8 @@ function applyThemeInlineStyles() {
 
 // Inject theme toggle button into navigation if not present
 function injectThemeToggle() {
+    if (document.getElementById('system-header')) return;
+
     // Check if any theme toggle already exists (navigation buttons or fixed toggle)
     if (document.querySelector('.theme-toggle') ||
         document.querySelector('#theme-icon') ||
@@ -106,52 +106,60 @@ window.themeSystem = {
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeTheme();
-    injectThemeToggle();
+    if (!document.getElementById('system-header')) injectThemeToggle();
 });
 
 // CSS for theme system - inject into page
 const themeCSS = `
 :root {
     /* Light Theme Variables */
-    --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --bg-secondary: rgba(255, 255, 255, 0.98);
-    --bg-glass: rgba(255, 255, 255, 0.25);
-    --bg-glass-hover: rgba(255, 255, 255, 0.35);
-    --card-bg: rgba(255, 255, 255, 0.95);
-    --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    --text-primary: #1f2937;
-    --text-secondary: #4b5563;
-    --text-tertiary: #6b7280;
-    --text-on-glass: #1f2937;
-    --text-hover: #667eea;
-    --border-color: rgba(102, 126, 234, 0.2);
-    --shadow-color: rgba(0, 0, 0, 0.1);
-    --shadow-hover: rgba(102, 126, 234, 0.3);
+    --bg-primary: linear-gradient(135deg, #132238 0%, #2f6f73 100%);
+    --bg-secondary: rgba(255, 253, 249, 0.98);
+    --bg-glass: rgba(255, 253, 249, 0.78);
+    --bg-glass-hover: rgba(255, 255, 255, 0.94);
+    --card-bg: rgba(255, 253, 249, 0.96);
+    --card-shadow: 0 18px 48px rgba(19, 34, 56, 0.13);
+    --text-primary: #132238;
+    --text-secondary: #3f4e5f;
+    --text-tertiary: #657181;
+    --text-on-glass: #132238;
+    --text-hover: #2f6f73;
+    --border-color: rgba(47, 111, 115, 0.24);
+    --shadow-color: rgba(19, 34, 56, 0.13);
+    --shadow-hover: rgba(47, 111, 115, 0.28);
     --backdrop-blur: blur(20px);
-    --accent-primary: #667eea;
-    --accent-secondary: #764ba2;
+    --accent-primary: #5b4b8a;
+    --accent-secondary: #2f6f73;
+    --repair-color: #2f6f73;
+    --liberate-color: #a45a52;
+    --positive-color: #3e7c59;
+    --caution-color: #b7791f;
 }
 
 [data-theme="dark"] {
     /* Dark Theme Variables - WCAG AA+ Compliant */
-    --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    --bg-secondary: rgba(15, 23, 42, 0.98);
-    --bg-glass: rgba(30, 41, 59, 0.85);
-    --bg-glass-hover: rgba(30, 41, 59, 0.95);
-    --card-bg: rgba(30, 41, 59, 0.95);
+    --bg-primary: linear-gradient(135deg, #0b1422 0%, #173f43 100%);
+    --bg-secondary: rgba(15, 27, 42, 0.98);
+    --bg-glass: rgba(27, 43, 57, 0.88);
+    --bg-glass-hover: rgba(37, 55, 70, 0.96);
+    --card-bg: rgba(24, 39, 54, 0.96);
     --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     /* High contrast text colors for maximum readability */
     --text-primary: #ffffff;
     --text-secondary: #f1f5f9;
     --text-tertiary: #e2e8f0;
     --text-on-glass: #ffffff;
-    --text-hover: #c4b5fd;
+    --text-hover: #9ad1cd;
     --border-color: rgba(203, 213, 225, 0.3);
     --shadow-color: rgba(0, 0, 0, 0.4);
-    --shadow-hover: rgba(196, 181, 253, 0.4);
+    --shadow-hover: rgba(93, 169, 165, 0.36);
     --backdrop-blur: blur(20px);
-    --accent-primary: #a78bfa;
-    --accent-secondary: #8b5cf6;
+    --accent-primary: #b9a9e8;
+    --accent-secondary: #79b8b4;
+    --repair-color: #79b8b4;
+    --liberate-color: #df938a;
+    --positive-color: #78b890;
+    --caution-color: #e1b55c;
 }
 
 /* Theme Toggle Button */

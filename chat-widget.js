@@ -33,6 +33,12 @@ function initChatWidget(config) {
         response:       "Thank you for reaching out! I'm here to help you navigate this process. How can I assist you?"
     }, config);
 
+    // Chat is part of the active pathway, not a third competing palette.
+    var section = document.documentElement.getAttribute('data-discern-section');
+    if (section === 'repair' || section === 'liberate') {
+        cfg.gradient = 'linear-gradient(135deg, var(--pathway-primary), var(--pathway-secondary))';
+    }
+
     // ── 1. Inject gradient-specific CSS (structural CSS is in desktop-enhancements.css) ──
     // The background gradient for this page's chat is injected as a scoped style rule.
     var styleEl = document.createElement('style');

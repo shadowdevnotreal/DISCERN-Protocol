@@ -427,106 +427,211 @@ button, a, input, textarea, select {
 }
 
 /* ================================
-   SHARED NAVIGATION COMPONENT
+   SHARED SYSTEM HEADER + LAYERS
    (nav-component.js)
    ================================ */
 
-nav {
-    background: var(--bg-glass);
+:root {
+    --layer-chat: 300;
+    --layer-header: 500;
+    --layer-modal: 1000;
+}
+
+html[data-discern-section="repair"] {
+    --bg-primary: linear-gradient(135deg, #132238 0%, #2f6f73 100%);
+    --accent-primary: #5b4b8a;
+    --accent-secondary: #2f6f73;
+}
+
+html[data-discern-section="liberate"] {
+    --bg-primary: linear-gradient(135deg, #4f3438 0%, #a45a52 100%);
+    --accent-primary: #a45a52;
+    --accent-secondary: #7f4b59;
+    --border-color: rgba(164, 90, 82, 0.24);
+    --shadow-hover: rgba(164, 90, 82, 0.3);
+}
+
+html[data-theme="dark"][data-discern-section="repair"] {
+    --bg-primary: linear-gradient(135deg, #0b1422 0%, #173f43 100%);
+}
+
+html[data-theme="dark"][data-discern-section="liberate"] {
+    --bg-primary: linear-gradient(135deg, #251b22 0%, #573b40 100%);
+    --accent-primary: #df938a;
+    --accent-secondary: #bd7882;
+}
+
+/* Pathway semantics: one shared DISCERN language, two unmistakable routes. */
+html[data-discern-section="repair"] .btn-primary,
+html[data-discern-section="repair"] .protocol-badge,
+html[data-discern-section="repair"] .header-title,
+html[data-discern-section="repair"] .step-circle.active,
+html[data-discern-section="repair"] .phase-nav-item.active {
+    background: linear-gradient(135deg, var(--pathway-primary), var(--pathway-secondary)) !important;
+    box-shadow: 0 5px 18px var(--pathway-glow) !important;
+}
+
+html[data-discern-section="liberate"] .btn-primary,
+html[data-discern-section="liberate"] .protocol-badge,
+html[data-discern-section="liberate"] .header-title,
+html[data-discern-section="liberate"] .phase-number,
+html[data-discern-section="liberate"] .phase-nav-item.active {
+    background: linear-gradient(135deg, var(--pathway-primary), var(--pathway-secondary)) !important;
+    box-shadow: 0 5px 18px var(--pathway-glow) !important;
+}
+
+html[data-discern-section="repair"] .header h1,
+html[data-discern-section="liberate"] .header h1 {
+    background: linear-gradient(135deg, var(--pathway-primary), var(--pathway-secondary)) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+}
+
+html[data-discern-section="repair"] input:focus,
+html[data-discern-section="repair"] textarea:focus,
+html[data-discern-section="repair"] select:focus,
+html[data-discern-section="liberate"] input:focus,
+html[data-discern-section="liberate"] textarea:focus,
+html[data-discern-section="liberate"] select:focus {
+    border-color: var(--pathway-secondary) !important;
+    box-shadow: 0 0 0 3px var(--pathway-glow) !important;
+}
+
+nav.system-header {
+    width: auto;
+    max-width: none;
+    margin-inline: 0;
+    background: var(--bg-secondary);
     backdrop-filter: var(--backdrop-blur);
-    padding: 10px 18px;
-    box-shadow: 0 2px 10px var(--shadow-color);
+    padding: 0;
+    box-shadow: 0 1px 0 var(--border-color);
     position: sticky;
     top: 0;
-    z-index: 100;
-    border-bottom: 1px solid var(--border-color);
+    z-index: var(--layer-header);
+    border: 0;
 }
 
-.nav-container {
-    max-width: 1060px;
+.system-header-row {
+    width: 100%;
+    max-width: none;
+    min-height: 62px;
     margin: 0 auto;
-    display: flex;
-    justify-content: center;
+    padding: 8px clamp(18px, 3vw, 42px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
+    gap: 16px;
 }
 
-.discern-nav .nav-container { justify-content: flex-start; }
-
-.nav-brand {
-    margin-right: auto;
+.system-brand {
+    grid-column: 2;
     color: var(--text-primary);
     font-size: 1.05rem;
     font-weight: 800;
     letter-spacing: 0.28em;
     text-decoration: none;
+    white-space: nowrap;
 }
 
-.nav-links {
+.system-home {
+    grid-column: 1;
+    justify-self: start;
+}
+
+.system-header .system-theme-toggle {
+    grid-column: 3;
+    justify-self: end;
+    position: static !important;
+    inset: auto !important;
+    z-index: auto !important;
+    width: auto !important;
+    min-width: 118px;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 9px 14px !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 999px !important;
+    background: var(--bg-glass) !important;
+    box-shadow: none !important;
+    color: var(--text-primary) !important;
+    font: 700 0.83rem/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    white-space: nowrap;
+    transform: none !important;
+}
+
+.system-theme-icon {
+    font-size: 1rem;
+    line-height: 1;
+    opacity: 0.72;
+}
+
+.system-header .system-theme-toggle[aria-pressed="false"] .system-theme-icon:first-child,
+.system-header .system-theme-toggle[aria-pressed="true"] .system-theme-icon:last-child {
+    color: var(--accent-secondary);
+    opacity: 1;
+}
+
+.system-header .system-theme-toggle:hover,
+.system-header .system-theme-toggle:focus-visible {
+    background: var(--bg-glass-hover) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.16) !important;
+    outline: none;
+}
+
+.system-context-nav {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
+    min-height: 44px;
+    padding: 5px max(18px, calc((100% - 1060px) / 2 + 18px));
+    overflow-x: auto;
+    border-top: 1px solid var(--border-color);
+    scrollbar-width: thin;
 }
 
-.discern-nav .nav-link.active {
-    border-radius: 0;
-    border-bottom: 2px solid #4b35b8;
-    background: transparent;
-    color: #35249a;
-}
-
-.discern-nav .nav-link.active:hover {
-    background: transparent;
-    color: #35249a;
-}
-
-@media (max-width: 560px) {
-    .nav-brand { font-size: 0.95rem; letter-spacing: 0.18em; }
-    .discern-nav .nav-link { padding: 8px; font-size: 0.88rem; }
-}
-
-.nav-link {
+.system-header .nav-link {
     text-decoration: none;
     color: var(--text-secondary);
     font-weight: 600;
-    padding: 8px 12px;
+    padding: 8px 11px;
     border-radius: 8px;
-    transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
 }
 
-.nav-link:hover {
+.system-header .nav-link:hover {
     background: var(--bg-glass-hover);
     color: var(--text-hover);
 }
 
-.nav-link.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.system-header .nav-link.active {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
     color: white;
     cursor: default;
 }
 
-.nav-link.active:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.system-header .nav-link.active:hover {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
     color: white;
 }
 
 .ai-nav-link {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #3e7c59 0%, #2f6f73 100%);
     color: white;
     padding: 10px 20px;
     font-weight: 700;
-    box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 2px 10px rgba(47, 111, 115, 0.26);
 }
 
 .ai-nav-link:hover {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    background: linear-gradient(135deg, #356a4c 0%, #285d60 100%);
     color: white;
     transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 4px 15px rgba(47, 111, 115, 0.34);
 }
 
 .nav-api-btn {
@@ -535,6 +640,20 @@ nav {
     cursor: pointer;
     font-family: inherit;
     font-size: inherit;
+}
+
+@media (max-width: 640px) {
+    .system-header-row {
+        min-height: 56px;
+        padding: 7px 12px;
+        gap: 8px;
+    }
+
+    .system-brand { font-size: 0.92rem; letter-spacing: 0.18em; }
+    .system-header .system-theme-toggle { min-width: 94px; padding: 8px 9px !important; font-size: 0.76rem !important; }
+    .system-header .system-home { padding: 8px 6px; font-size: 0.86rem; }
+    .system-context-nav { justify-content: flex-start; min-height: 42px; padding: 4px 12px; }
+    .system-context-nav .nav-link { padding: 7px 9px; font-size: 0.84rem; }
 }
 
 
@@ -555,7 +674,7 @@ nav {
     font-size: 2rem;
     cursor: pointer;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    z-index: 1000;
+    z-index: var(--layer-chat) !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -591,8 +710,40 @@ nav {
     visibility: hidden;
     pointer-events: none;
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    z-index: 999;
+    z-index: var(--layer-chat) !important;
     overflow: hidden;
+}
+
+/* REPAIR has a legacy chat implementation; keep it on the same system layer. */
+.agent-panel {
+    z-index: var(--layer-chat) !important;
+}
+
+/* Every known modal family must remain above every chat implementation. */
+.modal,
+.api-config-modal,
+.ai-analysis-overlay {
+    z-index: var(--layer-modal) !important;
+}
+
+/* REPAIR's connection badge is useful, but must not cover the system header. */
+.ai-status-badge {
+    top: 118px !important;
+    z-index: calc(var(--layer-header) - 1) !important;
+}
+
+.notification {
+    top: 118px !important;
+    z-index: calc(var(--layer-header) - 1) !important;
+}
+
+@media (max-width: 640px) {
+    .ai-status-badge {
+        top: 104px !important;
+        right: 12px !important;
+    }
+
+    .notification { top: 104px !important; }
 }
 
 .chat-widget-panel.active {

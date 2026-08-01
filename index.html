@@ -13,10 +13,10 @@
             --discern-muted: #52627a;
             --discern-line: #d8e0ec;
             --discern-surface: rgba(255, 255, 255, 0.94);
-            --repair: #4b35b8;
-            --repair-soft: #f7f5ff;
-            --liberate: #db3c20;
-            --liberate-soft: #fff8f5;
+            --repair: #2f6f73;
+            --repair-soft: #edf6f4;
+            --liberate: #a45a52;
+            --liberate-soft: #faf1ef;
         }
 
         * { box-sizing: border-box; }
@@ -25,7 +25,7 @@
             margin: 0;
             min-height: 100vh;
             padding: 0;
-            background: #f8fafc;
+            background: #f5f2ec;
             color: var(--discern-ink);
             font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
@@ -70,15 +70,15 @@
             padding: 0 28px;
             border: 0;
             border-radius: 10px;
-            background: linear-gradient(135deg, #5140c4, #3f2e9f);
-            box-shadow: 0 8px 20px rgba(64, 46, 159, 0.2);
+            background: linear-gradient(135deg, #5b4b8a, #2f6f73);
+            box-shadow: 0 8px 20px rgba(47, 74, 88, 0.2);
             color: #fff;
             font: 700 1rem/1 Inter, ui-sans-serif, sans-serif;
             text-decoration: none;
             transition: transform 180ms ease, box-shadow 180ms ease;
         }
 
-        .assessment-button:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(64, 46, 159, 0.26); }
+        .assessment-button:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(47, 74, 88, 0.28); }
 
         .assessment-button svg,
         .path-link svg,
@@ -169,15 +169,82 @@
 
         .safety-note svg { color: var(--discern-ink); }
 
+        .discern-explainer {
+            margin-top: 42px;
+            padding: clamp(26px, 4vw, 40px);
+            border: 1px solid var(--discern-line);
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), var(--repair-soft));
+            box-shadow: 0 14px 36px rgba(16, 33, 63, 0.07);
+        }
+
+        .discern-explainer h2 {
+            margin: 0;
+            color: var(--discern-ink);
+            font: 700 clamp(1.55rem, 2.6vw, 2.15rem)/1.15 Georgia, "Times New Roman", serif;
+        }
+
+        .explainer-intro {
+            max-width: 760px;
+            margin: 12px 0 0;
+            color: var(--discern-muted);
+            font-size: 1rem;
+            line-height: 1.65;
+        }
+
+        .explainer-steps {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+            margin-top: 28px;
+            padding-top: 26px;
+            border-top: 1px solid var(--discern-line);
+        }
+
+        .explainer-step { display: grid; grid-template-columns: 32px 1fr; gap: 12px; }
+        .step-number {
+            display: grid;
+            width: 32px;
+            height: 32px;
+            place-items: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5b4b8a, #2f6f73);
+            color: #fff;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+        .explainer-step h3 { margin: 3px 0 6px; color: var(--discern-ink); font-size: 1rem; }
+        .explainer-step p { margin: 0; color: var(--discern-muted); font-size: 0.9rem; line-height: 1.55; }
+        .domain-heading { margin: 30px 0 0; color: var(--discern-ink); font-size: 1rem; font-weight: 800; }
+        .domain-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .domain-item {
+            padding: 15px;
+            border: 1px solid var(--discern-line);
+            border-radius: 10px;
+            background: rgba(255, 253, 249, 0.66);
+        }
+        .domain-item strong { display: block; color: var(--discern-ink); font-size: 0.9rem; }
+        .domain-item span { display: block; margin-top: 5px; color: var(--discern-muted); font-size: 0.8rem; line-height: 1.4; }
+        .explainer-limit { margin: 24px 0 0; color: var(--discern-muted); font-size: 0.82rem; line-height: 1.5; }
+
         .assessment-button:focus-visible,
         .path-link:focus-visible {
-            outline: 3px solid rgba(75, 53, 184, 0.3);
+            outline: 3px solid rgba(47, 111, 115, 0.3);
             outline-offset: 3px;
         }
 
-        [data-theme="dark"] body { background: #0f172a; }
-        [data-theme="dark"] .discern-home { --discern-ink: #f8fafc; --discern-muted: #cbd5e1; --discern-line: #334155; --discern-surface: #172033; --repair-soft: #1d1b38; --liberate-soft: #2b1c1b; }
+        [data-theme="dark"] body { background: #0b1422; }
+        [data-theme="dark"] .discern-home { --discern-ink: #f8fafc; --discern-muted: #cbd5e1; --discern-line: #334155; --discern-surface: #172033; --repair: #79b8b4; --repair-soft: #162e34; --liberate: #df938a; --liberate-soft: #35252b; }
         [data-theme="dark"] .path-link, [data-theme="dark"] .safety-note { background: rgba(15, 23, 42, 0.55); }
+        [data-theme="dark"] .path-option.repair { background: linear-gradient(135deg, var(--repair-soft), #172033 74%); }
+        [data-theme="dark"] .path-option.liberate { background: linear-gradient(135deg, #172033, var(--liberate-soft)); }
+        [data-theme="dark"] .discern-explainer { background: linear-gradient(135deg, rgba(23, 32, 51, 0.96), var(--repair-soft)); }
+        [data-theme="dark"] .domain-item { background: rgba(11, 20, 34, 0.52); }
 
         @media (max-width: 760px) {
             .discern-home { width: min(100% - 28px, 560px); padding-top: 42px; }
@@ -193,6 +260,9 @@
             .path-name { margin-top: 0; font-size: 1.25rem; }
             .path-link { width: 100%; }
             .safety-note { align-items: flex-start; margin-top: 20px; }
+            .discern-explainer { margin-top: 30px; padding: 24px 20px; }
+            .explainer-steps { grid-template-columns: 1fr; gap: 20px; }
+            .domain-grid { grid-template-columns: 1fr 1fr; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -241,6 +311,33 @@
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 19 6v5c0 4.6-2.8 8.1-7 10-4.2-1.9-7-5.4-7-10V6l7-3Z"/></svg>
             <span>If you are in immediate danger, contact local emergency services.</span>
         </p>
+
+        <section class="discern-explainer" aria-labelledby="what-is-discern">
+            <h2 id="what-is-discern">What DISCERN helps you do</h2>
+            <p class="explainer-intro">DISCERN is a guided decision tool for relationship harm and conflict. It helps you look at safety, accountability, repeated patterns, and impact before choosing whether to work toward repair or protect your wellbeing and move forward.</p>
+            <div class="explainer-steps" aria-label="How to use DISCERN">
+                <article class="explainer-step">
+                    <span class="step-number" aria-hidden="true">1</span>
+                    <div><h3>Assess what is happening</h3><p>Answer a short set of questions when the safest direction is not yet clear.</p></div>
+                </article>
+                <article class="explainer-step">
+                    <span class="step-number" aria-hidden="true">2</span>
+                    <div><h3>Choose the fitting pathway</h3><p>Use REPAIR for safe, mutual accountability or LIBERATE when harm and boundary violations continue.</p></div>
+                </article>
+                <article class="explainer-step">
+                    <span class="step-number" aria-hidden="true">3</span>
+                    <div><h3>Use the pathway tools</h3><p>Follow the framework, track progress, and create commitments that match your situation.</p></div>
+                </article>
+            </div>
+            <h3 class="domain-heading">The four domains considered in every decision</h3>
+            <div class="domain-grid" aria-label="DISCERN assessment domains">
+                <div class="domain-item"><strong>Safety</strong><span>Physical, emotional, and psychological security.</span></div>
+                <div class="domain-item"><strong>Accountability</strong><span>Whether responsibility and sustained change are present.</span></div>
+                <div class="domain-item"><strong>Pattern</strong><span>Frequency, severity, escalation, and failed repair cycles.</span></div>
+                <div class="domain-item"><strong>Impact</strong><span>Effects on wellbeing, identity, work, and other relationships.</span></div>
+            </div>
+            <p class="explainer-limit">DISCERN supports reflection and planning. It does not replace emergency, legal, medical, or mental-health services.</p>
+        </section>
     </main>
 
     <script>initNav({ type: 'discern', activePage: 'home' });</script>

@@ -1792,6 +1792,7 @@
         // Calculate phase completion
         function calculatePhaseCompletion(content) {
             const phases = ['ASSESSMENT', 'RECOGNIZE', 'EXAMINE', 'PREPARE', 'ARTICULATE', 'IMPLEMENT', 'RESTORE', 'CONTRACT'];
+            contractData.phases = phases;
             let completedPhases = 0;
             let currentPhase = -1;
 
@@ -1886,9 +1887,13 @@
             const progressData = [];
             const trustData = [];
             
-            for (let i = 1; i <= Math.min(weeks, 4); i++) {
+            const displayedWeeks = Math.min(weeks, 4);
+            const totalPhases = contractData.phases.length || 1;
+            const overallProgress = (contractData.completedPhases / totalPhases) * 100;
+
+            for (let i = 1; i <= displayedWeeks; i++) {
                 labels.push(`Week ${i}`);
-                progressData.push(Math.min(i * 20, contractData.completedPhases / 8 * 100));
+                progressData.push(Math.min((i / displayedWeeks) * 100, overallProgress));
                 trustData.push(Math.min(i * 18, parseFloat(document.getElementById('trustScore').textContent) * 10));
             }
             
